@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
-set(PROJECT_NAME TurnForMEGA_1787)
+set(PROJECT_NAME 1787_TurnForMEGA)
 
 SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}")
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}")
@@ -9,8 +9,6 @@ project (${PROJECT_NAME})
 
 if(MSVC)
     set(CMAKE_CXX_FLAGS "-W3 ${CMAKE_CXX_FLAGS}")
-    set(CMAKE_CXX_FLAGS "-WX ${CMAKE_CXX_FLAGS}")
-    set(CMAKE_CXX_FLAGS "-MP ${CMAKE_CXX_FLAGS}")
 endif(MSVC)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME} src/main.cpp)

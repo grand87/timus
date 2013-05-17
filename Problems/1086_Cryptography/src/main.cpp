@@ -65,6 +65,7 @@ public:
                     mPrimeValues[++iValue] = value;
 
             }
+            mProcessed = true;
         }
 
         return mPrimeValues[primeIndex];
@@ -89,7 +90,7 @@ int main()
 #endif
     
     size_t ev = 0;
-    scanf("%d", &ev);    
+    scanf("%d", &ev);
 
     ProblemSolver solver;
     VectorInt requests;
@@ -99,7 +100,6 @@ int main()
         scanf("%d", &value);
         solver.addPrimeIndex(value);
         requests.push_back(value);
-
     }
     
     for(VectorInt::const_iterator it = requests.begin(); it != requests.end(); ++it)

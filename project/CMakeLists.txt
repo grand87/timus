@@ -10,3 +10,4 @@ ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/../Problems/1079_Maximum "${CMAKE_CURRENT
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/../Problems/1026_Questions_and_Answers "${CMAKE_CURRENT_BINARY_DIR}/1026_Questions_and_Answers")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/../Problems/1319_Hotel "${CMAKE_CURRENT_BINARY_DIR}/1319_Hotel")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/../Problems/1881_Long_problem_statement "${CMAKE_CURRENT_BINARY_DIR}/1881_Long_problem_statement")
+ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/../Problems/1788_On_the_Benefits_of_Umbrellas "${CMAKE_CURRENT_BINARY_DIR}/1788_On_the_Benefits_of_Umbrellas")

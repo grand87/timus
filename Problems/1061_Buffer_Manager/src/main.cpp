@@ -41,9 +41,8 @@ BlocksSequence findOptimalLocation(const BlocksSequence &base, size_t request, c
     
     size_t worthiness = 0;
     for(size_t lpos = 0; lpos < request; ++lpos)
-    {
         worthiness += localBuffer[lpos] - '0';
-    }
+
     BlocksSequence prev(0, request, worthiness);
     BlocksSequence best = prev;
 
@@ -90,7 +89,13 @@ int main()
         return 0;
     }
 
-    scanf("%s", bufferState);
+    size_t scanned = 0;
+    while(scanned != length)
+    {
+        scanf("%s", bufferState + scanned);
+        scanned += strlen(bufferState + scanned);
+    }
+    bufferState[length] = 0;
 
     Buffers buffers;
     buffers.reserve(50);

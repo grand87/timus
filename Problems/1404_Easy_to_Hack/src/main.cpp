@@ -5,60 +5,86 @@
 #pragma comment(linker, "/STACK:16777216")
 
 #include <stdio.h>
-#include <vector>
+#include <string>
+#include <assert.h>
 
 using namespace std;
 
 //#define ONLINE_JUDGE
 
-typedef vector<size_t> VectorInt;
-typedef vector<VectorInt> VectorInt2;
-
-struct Index
+string decrypt(const string &src)
 {
-    Index()
+    string step1;
+    string step2;
+    string step3;
+
+    const size_t length = strlen(src.c_str());
+
+    step1.resize(length);
+    step2.resize(length);
+    step3.resize(length);
+    
+    for(size_t i = 0; i < length; ++i)
     {
-        row = 0;
-        col = 0;
-    }
+        step1[i] = src[i] - 'a';
+        
+        if(i == 0)
+            step2[i] = step1[i] - 5;
+        else
+            step2[i] = step1[i] + 26 - step1[i - 1];
 
-    Index(size_t aRow, size_t aCol)
+        if(step2[i] >= 26)
+            step2[i] -= 26;
+        else
+        if(step2[i] < 0)
+            step2[i] += 26;
+
+        step3[i] = step2[i] + 'a';
+    }
+    return step3;
+}
+
+string encrypt(const string &src)
+{
+    string step1;
+    string step2;
+    string step3;
+
+    const size_t length = strlen(src.c_str());
+
+    step1.resize(length);
+    step2.resize(length);
+    step3.resize(length);
+
+    for(size_t i = 0; i < length; ++i)
     {
-        row = aRow;
-        col = aCol;
+        step1[i] = src[i] - 'a';
+        
+        if(i == 0)
+            step2[i] = step1[i] + 5;
+        else
+            step2[i] = step2[i - 1] + step1[i];
+
+        if(step2[i] > 25)
+            step2[i] = step2[i] % 26;
+
+        step3[i] = step2[i] + 'a';
     }
+    return step3;
+}
+#define DEBUG_RUN
 
-    size_t row;
-    size_t col;
-};
+#ifdef DEBUG_RUN
 
-bool operator == (const Index& aLeft, const Index& aRight)
+bool testCase(string src)
 {
-    return aLeft.col == aRight.col && aLeft.row == aRight.row;
+    string result1 = encrypt(src);
+    string result2 = decrypt(result1);
+    size_t d = result2.compare(src);
+    return d == 0;
 }
 
-const Index TerminationCell(-1, -1);
-
-Index nextIndex(const Index& current, const Index &maxIndex)
-{
-    if(current.col < maxIndex.col && current.row < maxIndex.row)
-        return Index(current.row + 1, current.col + 1);
-    else
-        return TerminationCell;
-}
-
-Index nextDiagonal(const Index& prevDiagonal)
-{
-    if(prevDiagonal.col > 1)
-        return Index(1, prevDiagonal.col - 1);
-    else
-        return Index(prevDiagonal.row + 1, 1);
-}
-
-void updateCell(VectorInt2 &aVec, const Index &aIndex, size_t aValue)
-{
-    aVec[aIndex.row - 1][aIndex.col - 1] = aValue;
-}
+#endif
 
 int main()
 {
@@ -67,48 +93,19 @@ int main()
     freopen("output.txt", "wt", stdout);
 #endif
     
-    size_t dbsize = 0;
-    scanf("%d", &dbsize);
+    string buffer("");
+    buffer.resize(101);
 
-    VectorInt2 result(dbsize);
-    for(VectorInt2::iterator it = result.begin(); it != result.end(); ++it)
-        it->resize(dbsize);
+#ifdef DEBUG_RUN
+    assert(testCase("secret"));
+    assert(testCase("yyyyyy"));
+    assert(testCase("zabcd"));
+    assert(testCase("abcdefghjklmnopqrstvwxyzabcdefjhjklmnopqrstvwxyz"));
+#endif
 
-/*
-    21
-    11 22
-    12
-
-    31 
-    21 32 
-    11 22 33
-    12 23
-    13
-*/
-
-    size_t value = 1;
-    Index cIndex(1, dbsize);
-    Index previousStart(cIndex);
-    const Index iMax(dbsize, dbsize);
-
-    while(value < dbsize * dbsize + 1)
-    {
-        updateCell(result, cIndex, value);
-        ++value;
-        cIndex = nextIndex(cIndex, iMax);
-        if(cIndex == TerminationCell)
-        {
-            previousStart = nextDiagonal(previousStart);
-            cIndex = previousStart;
-        }
-    }
-
-    for(VectorInt2::iterator row = result.begin(); row != result.end(); ++row)
-    {
-        for(VectorInt::iterator col = row->begin(); col != row->end(); ++col)
-            printf("%d ", *col);
-        printf("\n");
-    }
+    scanf("%s", &buffer[0]);
+    string result = decrypt(buffer);
+    printf("%s", result.c_str());
 
     return 0;
 }

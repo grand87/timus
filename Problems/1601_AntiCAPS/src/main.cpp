@@ -28,45 +28,40 @@ bool isTerminator(char letter)
     return letter == terminator[0] || letter == terminator[1] || letter == terminator[2];
 }
 
-bool normalize(const char* source, char * const result, bool isNew)
+class Processor
 {
-    size_t i = 0;
-    bool sentenceTerminated = false;
-    bool firstLetterLocated = !isNew;
+    bool isNew;
 
-    while(char current = source[i])
+public:
+    Processor()
     {
-        if((isBig(current) && !firstLetterLocated) || (isNew && isSmall(current)))
+        isNew = true;
+    }
+
+    char process(char c)
+    {
+        char result = c;
+        if(isNew)
         {
-            if(isSmall(current))
-                current -= 32;
-            firstLetterLocated = true;
-            isNew = false;
-            sentenceTerminated = false;
-        }
-        else        
-        if(firstLetterLocated && isBig(current))
-        {
-            current += 32;
-            sentenceTerminated = false;
+            if(isSmall(c))
+            {
+                c -= 32;
+                isNew = false;
+            }
+            else if(isBig(c))
+                isNew = false;
         }
         else
-        if(isTerminator(current))
+        if(isBig(c))
         {
-            isNew = true;
-            firstLetterLocated = false;
-            sentenceTerminated = true;
+            c += 32;
         }
-
-        result[i] = current;
-        ++i;
+        else
+            if(isTerminator(c))
+                isNew = true;
+        return c;
     }
-    result[i] = 0;
-    if(firstLetterLocated)
-        return sentenceTerminated;
-    else
-        return true;
-}
+};
 
 int main()
 {
@@ -79,18 +74,17 @@ int main()
     char result[10001] = "";
 
     bool isNew = true;
-
     bool isFirstLine = true;
+
+    Processor processor;
 
     while(!feof(stdin))
     {
-        gets(buffer);
-        isNew = normalize(buffer, result, isNew);
-        if(isFirstLine)
-            isFirstLine = !isFirstLine;
-        else
-            printf("\n");
-        printf("%s", result);
+        char c;
+        scanf("%c", &c);
+
+        c = processor.process(c);
+        printf("%c", c);
     }
 
     return 0;

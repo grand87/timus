@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 #include <vector>
-
+#include <string.h>
 //#define ONLINE_JUDGE
 
 struct BlocksSequence

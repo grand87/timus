@@ -66,16 +66,13 @@ int main()
     }
 
     int group1Size = 0;
-    int group1[MAX_GROUP_SIZE];
-
     int group2Size = 0;
-    int group2[MAX_GROUP_SIZE];
 
     for(Groups::iterator it = groups.begin(); it != groups.end(); ++it) {
         if(it->second == 0) {
-            group1[group1Size++] = it->first;
+            friendsMap[0][group1Size++] = it->first;
         } else {
-            group2[group2Size++] = it->first;
+            friendsMap[1][group2Size++] = it->first;
         }
 
     }
@@ -85,7 +82,7 @@ int main()
         return 0;
     }
 
-    int *firstGroup = group1Size > group2Size ? group1 : group2;
+    int *firstGroup = group1Size > group2Size ? friendsMap[0] : friendsMap[1];
     groupSize = group1Size > group2Size ? group1Size : group2Size;
 
     printf("%d\n", groupSize);

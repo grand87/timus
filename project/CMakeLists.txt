@@ -37,5 +37,5 @@ ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/../Problems/1025_DemocracyInDanger "${CMA
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/../Problems/1785_LostInLocalization "${CMAKE_CURRENT_BINARY_DIR}/1785_LostInLocalization")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/../Problems/1877_BicycleCodes "${CMAKE_CURRENT_BINARY_DIR}/1877_BicycleCodes")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/../Problems/2001_MathematiciansAndBerries "${CMAKE_CURRENT_BINARY_DIR}/2001_MathematiciansAndBerries")
-
+ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/../Problems/1910_TitanRuinsHiddenEntrance "${CMAKE_CURRENT_BINARY_DIR}/1910_TitanRuinsHiddenEntrance")
 

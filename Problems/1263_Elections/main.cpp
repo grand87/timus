@@ -18,9 +18,6 @@ int main()
 
    const float voiceWeight = 100.f / voices;
 
-   for (auto rank = 0; rank < max_ranks; ++rank)
-	   ranks[rank] = 0;
-
    unsigned int voice;
 
    while (std::cin >> voice) {

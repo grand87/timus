@@ -1,0 +1,6 @@
+5
+Isenbaev A B
+A B C
+D Q P
+C H N
+G N P

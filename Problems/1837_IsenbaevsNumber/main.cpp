@@ -8,7 +8,7 @@ typedef std::pair<memberNeiberHoods, int> memeberRec;
 typedef std::map<std::string, memeberRec> countsRec;
 
 
-int findValue(countsRec &counts, const std::string &name, const std::string &toSkip)
+int findValue(countsRec &counts, const std::string &name, const std::list<std::string> &toSkip)
 {
 	auto rec = counts[name];
 
@@ -16,20 +16,54 @@ int findValue(countsRec &counts, const std::string &name, const std::string &toS
 		return rec.second;
 	else
 	{
-		int res = -1;
-	
-		for (countsRec::iterator it = counts.begin(); it != counts.end(); ++it)
+		int res1 = -1;
+		int res2 = -1;
+		
+		std::string n1 = rec.first.first;
+		if (counts[n1].second != -1)
+			res1 = counts[n1].second;
+		else
 		{
-			if (it->second.first.first.compare(name) == 0 || it->second.first.second.compare(name) == 0)
-			if (it->second.second != -1)
+			if (std::find(toSkip.begin(), toSkip.end(), n1) == toSkip.end())
 			{
-				if (res == -1)
-					res = it->second.second;
-				else
-					res = std::min(it->second.second, res);
+				std::list<std::string> _toSkip(toSkip);
+				_toSkip.push_back(n1);
+				res1 = findValue(counts, n1, _toSkip);
 			}
 		}
 
+		std::string n2 = rec.first.second;
+		if (counts[n2].second != -1)
+			res2 = counts[n2].second;
+		else
+		{
+			if (std::find(toSkip.begin(), toSkip.end(), n2) == toSkip.end())
+			{
+				std::list<std::string> _toSkip(toSkip);
+				_toSkip.push_back(n2);
+				_toSkip.push_back(n1);
+				res2 = findValue(counts, n2, _toSkip);
+			}
+		}
+
+		int res = -1;
+
+		if (res1 != -1 && res2 != -1)
+		{
+			res = std::min(res1, res2) + 1;
+		}
+		else
+		{
+			if (res1 != -1)
+			{
+				res = res1 + 1;
+			}
+			else
+			if (res2 != -1)
+			{
+				res = res2 + 1;
+			}
+		}
 		return res;
 	}
 }
@@ -139,7 +173,11 @@ int main()
 	for (std::list<std::string>::const_iterator it = needToAnalyze.begin(); it != needToAnalyze.end(); ++it)
 	{
 		// here must be recursive search
-		counts[*it].second = findValue(counts, *it, "");
+
+		std::list<std::string> toSkip;
+		toSkip.push_back(*it);
+
+		counts[*it].second = findValue(counts, *it, toSkip);
 	}
 
 	for (std::map<std::string, memeberRec>::const_iterator it = counts.begin(); it != counts.end(); ++it)

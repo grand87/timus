@@ -1,26 +1,49 @@
+/**
+    @brief task description link http://acm.timus.ru/problem.aspx?space=1&num=1837
+    
+    @author Volodymyr Sharayenko
+    @mail grand87@yandex.ru
+*/
+
 #include <iostream>
 #include <string>
 #include <map>
 
-int** generateUserLinksMatrix(int teamCount)
+struct UserMatrix
 {
-    // could be optimized
-    const int maxUsers = teamCount * 3;
-
-    int** res = new int* [maxUsers];
-
-    for (int user = 0; user < maxUsers; ++user)
+    UserMatrix(int aSize, int defaultValue = 0) : size(aSize)
     {
-        res[user] = new int [maxUsers];
-
-        for (int u = 0; u < maxUsers; ++u)
+        matrix = new int*[size];
+        for (int user = 0; user < size; ++user)
         {
-            res[user][u] = 0;
+            matrix[user] = new int[size];
+            for (int u = 0; u < size; ++u)
+                matrix[user][u] = defaultValue;
         }
     }
 
-    return res;
-}
+    ~UserMatrix()
+    {
+        if (matrix != 0)
+            for (int user = 0; user < size; ++user)
+                delete[] matrix[user];
+            delete[] matrix;
+            matrix = 0;
+    }
+
+    void dump(int userCount)
+    {
+        for (int user = 0; user < userCount; ++user)
+        {
+            for (int u = 0; u < userCount; ++u)
+                std::cout << matrix[user][u] << " ";
+            std::cout << std::endl;
+        }
+    }
+
+    int size;
+    int** matrix;
+};
 
 int getIValue(int** links, int userIdx, int isenbaevIdx, int userCount)
 {
@@ -51,21 +74,9 @@ int getIValue(int** links, int userIdx, int isenbaevIdx, int userCount)
     return -1;
 }
 
-void dumpLinks(int** links, int userCount)
-{
-    for (int user = 0; user < userCount; ++user)
-    {
-        for (int u = 0; u < userCount; ++u)
-        {
-            std::cout << links[user][u] << " ";
-        }
-
-        std::cout << std::endl;
-    }
-}
-
 int main()
 {
+    setbuf(stdout, NULL);
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "rt", stdin);
     freopen("output.txt", "wt", stdout);
@@ -81,14 +92,17 @@ int main()
 
     // could be optimized
     const int maxUsers = teamsCount * 3;
+    
+    // create adjacency matrix
+    UserMatrix *linksMatrix = new UserMatrix(maxUsers);
 
-    int** links = generateUserLinksMatrix(teamsCount);
     int isenbaevIdx = -1;
 
     for (char i = 0; i < teamsCount; ++i)
     {
         bool isenbaevHere = false;
 
+        // read team content
         for (int i = 0; i < 3; ++i)
         {
             std::cin >> name[i];
@@ -97,41 +111,46 @@ int main()
             if (userIds.find(name[i]) == userIds.end())
             {
                 userIds[name[i]] = userIds.size();
-            }
-
-            if (strcmp(name[i], "Isenbaev") == 0)
-            {
-                isenbaevHere = true;
-
-                if (isenbaevIdx == -1)
+                if (strcmp(name[i], "Isenbaev") == 0)
                 {
-                    isenbaevIdx = userIds[name[i]];
+                    isenbaevIdx = userIds.size();
                 }
             }
+
+            //if (strcmp(name[i], "Isenbaev") == 0)
+            //{
+            //    isenbaevHere = true;
+            //    if (isenbaevIdx == -1)
+            //    {
+            //        
+            //    }
+            //}
         }
 
-        for (int i = 0; i < 3; ++i)
-        {
-            int uID = userIds[name[i]];
+        //for (int i = 0; i < 3; ++i)
+        //{
+        //    int uID = userIds[name[i]];
 
-            // update links matrix
-            for (int j = 0; j < 3; ++j)
-            {
-                if (i != j)
-                {
-                    int neiberID = userIds[name[j]];
-                    links[uID][neiberID] = 1;
-                    //links[neiberID][uID] = 1;
-                }
-            }
-        }
+        //    // update links matrix
+        //    for (int j = 0; j < 3; ++j)
+        //    {
+        //        if (i != j)
+        //        {
+        //            int neiberID = userIds[name[j]];
+        //            links[uID][neiberID] = 1;
+        //            //links[neiberID][uID] = 1;
+        //        }
+        //    }
+        //}
     }
 
-    dumpLinks(links, userIds.size());
+    linksMatrix->dump(userIds.size());
 
-    for (auto user : userIds)
-    {
-        auto value = getIValue(links, user.second, isenbaevIdx, userIds.size());
-        std::cout << "[" << user.second << "]" << user.first.c_str() << " " << value << std::endl;
-    }
+    //for (auto user : userIds)
+    //{
+    //    auto value = getIValue(links, user.second, isenbaevIdx, userIds.size());
+    //    std::cout << "[" << user.second << "]" << user.first.c_str() << " " << value << std::endl;
+    //}
+
+    delete linksMatrix;
 }

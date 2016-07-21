@@ -1,4 +1,4 @@
 mkdir build
 cd build
-cmake ../project -G "Visual Studio 11 2012"
+cmake ../project -G "Visual Studio 14 2015"
 cd ..

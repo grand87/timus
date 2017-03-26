@@ -4,11 +4,8 @@
 
 #pragma comment(linker, "/STACK:16777216")
 
-#include <string>
-#include <iostream>
+//#include <string>
 #include <stdio.h>
-
-using namespace std;
 
 //#define ONLINE_JUDGE
 
@@ -24,12 +21,20 @@ struct block
 	int end_time;
 };
 
-class manager
+class memory_manager
 {
+protected:
 	static const int max_block = 30000;
 	static const int max_life_time = 10 * 60;
 	block memory[max_block];
-	
+
+public:
+	virtual int allocate(int time) = 0;
+	virtual bool is_availible(int time, int block_id) = 0;
+};
+
+class manager : public memory_manager
+{
 public:
 
 	manager()
@@ -77,6 +82,108 @@ public:
 		return false;
 	}
 };
+
+template <typename T>
+struct item
+{
+	item* next;
+	T* data;
+};
+
+template <typename T>
+struct list
+{
+	typedef item<T> list_item;
+	list_item *head;
+
+	list()
+	{
+		head = 0;
+	}
+
+	void add(T* data)
+	{
+		list_item* new_head = new list_item();
+		new_head->data = data;
+		new_head->next_item = head;
+		head = new_head;
+	}
+
+	list_item* find_smaller(T* data)
+	{
+		//iterate over all items and find first smaller than data
+		list_item* result = head;
+		while (result)
+		{
+			if (is_smaller(result->data, data))
+				return result;
+			else
+				result = result->next_item;
+		}
+		return 0;
+	}
+
+	list_item* find_equal(T* data)
+	{
+		//iterate over all items and find first smaller than data
+		list_item* result = head;
+		while (result)
+		{
+			if (is_equal(result->data, data))
+				return result;
+			else
+				result = result->next_item;
+		}
+	}
+};
+
+template <typename K , typename T>
+struct pair
+{
+	K key;
+	T* value;
+};
+
+
+template <typename K, typename T>
+struct map
+{
+	typedef pair<K, T> values;
+
+
+	list<K> keys;
+	list<values> data;
+
+	map()
+	{
+
+	}
+};
+
+class manager2 : public memory_manager
+{
+	typedef list<block> blocks;
+	map<int, blocks> blocks_map;
+
+public:
+	manager2()
+	{
+
+	}
+
+	virtual int allocate(int time)
+	{
+//		blocks_map.find_equal()
+
+
+	}
+
+	virtual bool is_availible(int time, int block_id)
+	{
+
+	}
+};
+
 
 int main()
 {

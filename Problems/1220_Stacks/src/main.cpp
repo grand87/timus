@@ -5,68 +5,132 @@
 //#pragma comment(linker, "/STACK:16777216")
 
 #include <stdio.h>
+#ifndef ONLINE_JUDGE
+#include <assert.h>
+#endif /*ONLINE_JUDGE*/
 
-//#define ONLINE_JUDGE
-
-template<typename T>
-struct list
+struct chank_16 //here could be stored 16 30 bit values
 {
-	typedef T* chank_type;
-	chank_type* chanks;
-	unsigned int chank_size;
-	unsigned int size;
+    static const char ITEMS_IN_CHANK = 16;
 
-	list(unsigned int chank_size)
-	{
-		this->chank_size = chank_size;
-		size = 0;
-		unsigned int max_chanks = 100000 / chank_size;
-		chanks = new chank_type[max_chanks];
-		for (unsigned int i = 0; i < max_chanks; i++)
-			chanks[i] = 0;
-	}
+    chank_16()
+    {
+        reset();
+    }
 
-	void push(unsigned int value)
-	{
-		unsigned int chank = size / chank_size;
-		unsigned int index = size % chank_size;
-
-		if (!chanks[chank])
-			chanks[chank] = new T[chank_size];
-
-		chanks[chank][index] = value;
-
-		size++;
-	}
-
-	unsigned int pop()
-	{
-		size--;
-		unsigned int chank = size / chank_size;
-		unsigned int index = size % chank_size;
-
-		return chanks[chank][index];
-	}
+    void reset()
+    {
+        for (unsigned int i = 0; i < ITEMS_IN_CHANK; ++i)
+            v[i] = 0;
+    }
+    unsigned int v[ITEMS_IN_CHANK - 1];
 };
+
+void set30bits_into_chank_16(chank_16* chank_16, unsigned int index, unsigned int value)
+{
+    const short start_bit = index * 30;
+    const short start_member = start_bit / 8;
+    const short start_member_offset = start_bit % 8;
+    char* start_member_address = (char*)chank_16 + start_member;
+    unsigned long * value_in_chank = (unsigned long *)start_member_address;
+
+    //need to write 30 bits starting from start_member_offset offset in value_in_chank
+    for (short i = 0; i < 30; ++i)
+    {
+        if (value & (1 << i))
+        {
+            //set bit in target
+            *value_in_chank |= 1 << (start_member_offset + i);
+        }
+        else
+        {
+            //clear bit in target
+            *value_in_chank &= ~(1 << (start_member_offset + i));
+        }
+    }
+}
+
+unsigned int get30bits_from_chank_16(chank_16* chank_16, unsigned int index)
+{
+    const short start_bit = index * 30;
+    const short start_member = start_bit / 8;
+    const short start_member_offset = start_bit % 8;
+    char* start_member_address = (char*)chank_16 + start_member;
+    unsigned long * value_in_chank = (unsigned long*)start_member_address;
+
+    unsigned int result = 0;
+    //need to read 30 bits starting from start_member_offset offset in value_in_chank
+    for (short i = 0; i < 30; ++i)
+    {
+        if (*value_in_chank & (1 << (start_member_offset + i)))
+        {
+            //set bit in target
+            result |= 1 << i;
+        }
+        else
+        {
+            //clear bit in target
+            result &= ~(1 << i);
+        }
+    }
+
+    return result;
+}
+
+void store_value_in_buffer(chank_16* buffer, unsigned int position, unsigned int value)
+{
+    //determine chunk & index in chank
+
+    unsigned int chank_idx = position / chank_16::ITEMS_IN_CHANK;
+    unsigned int chank_pos = position % chank_16::ITEMS_IN_CHANK;
+
+    set30bits_into_chank_16(&buffer[chank_idx], chank_pos, value);
+}
+
+unsigned get_value_from_buffer(chank_16* buffer, unsigned int position)
+{
+    //determine chunk & index in chank
+
+    unsigned int chank_idx = position / chank_16::ITEMS_IN_CHANK;
+    unsigned int chank_pos = position % chank_16::ITEMS_IN_CHANK;
+
+    return get30bits_from_chank_16(&buffer[chank_idx], chank_pos);
+}
 
 int main()
 {
 #ifndef ONLINE_JUDGE
 	freopen("input.txt", "rt", stdin);
 	freopen("output.txt", "wt", stdout);
+
+    chank_16 test;
+
+    set30bits_into_chank_16(&test, 0, 1);
+    set30bits_into_chank_16(&test, 1, 2);
+    set30bits_into_chank_16(&test, 2, 3);
+    set30bits_into_chank_16(&test, 3, 4);
+    set30bits_into_chank_16(&test, 4, 13);
+
+    assert(get30bits_from_chank_16(&test, 0) == 1);
+    assert(get30bits_from_chank_16(&test, 1) == 2);
+    assert(get30bits_from_chank_16(&test, 2) == 3);
+    assert(get30bits_from_chank_16(&test, 3) == 4);
+    assert(get30bits_from_chank_16(&test, 4) == 13);
 #endif
 
 	unsigned int operationsCount = 0;
 	scanf("%d", &operationsCount);
 
-	//unsigned short int *idx = new unsigned short int[operationsCount];
-	//unsigned int *values = new unsigned int[operationsCount];
-
-	list<short int> idx(128);
-	list<unsigned int> values(128);
-
+    const unsigned int bits_in_chank = sizeof(chank_16) * 8;
+    const unsigned int max_chanks_16 = (100000 * 30) / bits_in_chank + 1;
+    
+    //below buffer is enought to store 100 000 items with 30 bits each
+    chank_16 values[max_chanks_16];
+	unsigned short int *idx = new unsigned short int[operationsCount];
+    
 	char cmd[5] = "";
 	unsigned int index = 0;
+    unsigned int value = 0;
 	unsigned int last_push = 0;
 
 	for (unsigned int operation = 0; operation < operationsCount; ++operation)
@@ -76,8 +140,10 @@ int main()
 
 		if (cmd[1] == 'U')
 		{
-			idx[last_push] = index;
-			scanf("%u", &values[last_push]);
+            scanf("%u", &value);
+
+            idx[last_push] = index;
+            store_value_in_buffer(values, last_push, value);
 			++last_push;
 		}
 		else
@@ -87,7 +153,8 @@ int main()
 				if (idx[i] == index)
 				{
 					idx[i] = 0;
-					printf("%d\n", values[i]);
+                    value = get_value_from_buffer(values, i);
+                    printf("%d\n", value);
 					break;
 				}
 			}
@@ -95,7 +162,7 @@ int main()
 	}
 
 	delete[] idx;
-	delete[] values;
+//	delete[] values;
  
 	return 0;
 }

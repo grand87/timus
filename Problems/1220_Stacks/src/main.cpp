@@ -1,3 +1,4 @@
+
 /*
 * @author v.sharayenko (grand87@yandex.ru)
 */
@@ -20,7 +21,7 @@ struct chank_16 //here could be stored 16 30 bit values
 
     void reset()
     {
-        for (unsigned int i = 0; i < ITEMS_IN_CHANK; ++i)
+        for (unsigned int i = 0; i < ITEMS_IN_CHANK - 1; ++i)
             v[i] = 0;
     }
     unsigned int v[ITEMS_IN_CHANK - 1];
@@ -28,14 +29,14 @@ struct chank_16 //here could be stored 16 30 bit values
 
 void set30bits_into_chank_16(chank_16* chank_16, unsigned int index, unsigned int value)
 {
-    const short start_bit = index * 30;
+    const short unsigned int start_bit = index * 30;
     const short start_member = start_bit / 8;
     const short start_member_offset = start_bit % 8;
     char* start_member_address = (char*)chank_16 + start_member;
-    unsigned long * value_in_chank = (unsigned long *)start_member_address;
+    unsigned long long* value_in_chank = (unsigned long long*)start_member_address;
 
     //need to write 30 bits starting from start_member_offset offset in value_in_chank
-    for (short i = 0; i < 30; ++i)
+    for (short i = 0; i < 28; ++i)
     {
         if (value & (1 << i))
         {
@@ -56,7 +57,7 @@ unsigned int get30bits_from_chank_16(chank_16* chank_16, unsigned int index)
     const short start_member = start_bit / 8;
     const short start_member_offset = start_bit % 8;
     char* start_member_address = (char*)chank_16 + start_member;
-    unsigned long * value_in_chank = (unsigned long*)start_member_address;
+    unsigned long long * value_in_chank = (unsigned long long *)start_member_address;
 
     unsigned int result = 0;
     //need to read 30 bits starting from start_member_offset offset in value_in_chank
@@ -103,19 +104,54 @@ int main()
 	freopen("input.txt", "rt", stdin);
 	freopen("output.txt", "wt", stdout);
 
-    chank_16 test;
+    {
+        unsigned int var[15];
+        for (int i = 0; i < 15; i++)
+            var[i] = 0;
 
-    set30bits_into_chank_16(&test, 0, 1);
-    set30bits_into_chank_16(&test, 1, 2);
-    set30bits_into_chank_16(&test, 2, 3);
-    set30bits_into_chank_16(&test, 3, 4);
-    set30bits_into_chank_16(&test, 4, 13);
+        assert(get30bits_from_chank_16((chank_16*)var, 0) == 0);
+        assert(get30bits_from_chank_16((chank_16*)var, 1) == 0);
+        set30bits_into_chank_16((chank_16*)var, 0, 1000000000);
+        assert(get30bits_from_chank_16((chank_16*)var, 0) == 1000000000);
 
-    assert(get30bits_from_chank_16(&test, 0) == 1);
-    assert(get30bits_from_chank_16(&test, 1) == 2);
-    assert(get30bits_from_chank_16(&test, 2) == 3);
-    assert(get30bits_from_chank_16(&test, 3) == 4);
-    assert(get30bits_from_chank_16(&test, 4) == 13);
+        unsigned int bb = get30bits_from_chank_16((chank_16*)var, 1);
+
+        assert(get30bits_from_chank_16((chank_16*)var, 1) == 0);
+        set30bits_into_chank_16((chank_16*)var, 1, 3);
+        assert(get30bits_from_chank_16((chank_16*)var, 0) == 1000000000);
+    }
+   
+    unsigned int shift = 1 << 7;
+    assert(shift == 128);
+
+    chank_16 *test = new chank_16();
+
+    set30bits_into_chank_16(test, 0, 1000000000);
+    unsigned int v = get30bits_from_chank_16(test, 0);
+    assert(get30bits_from_chank_16(test, 0) == 1000000000);
+    set30bits_into_chank_16(test, 1, 4);
+    //set30bits_into_chank_16(&test, 1, 2);
+    v = get30bits_from_chank_16(test, 0);
+    assert(get30bits_from_chank_16(test, 0) == 1000000000);
+    set30bits_into_chank_16(test, 2, 3);
+    set30bits_into_chank_16(test, 3, 4);
+    set30bits_into_chank_16(test, 4, 13);
+    set30bits_into_chank_16(test, 15, 1000000000);
+    set30bits_into_chank_16(test, 14, 1000000000);
+
+    assert(get30bits_from_chank_16(test, 0) == 1000000000);
+    assert(get30bits_from_chank_16(test, 1) == 2);
+    assert(get30bits_from_chank_16(test, 2) == 3);
+    assert(get30bits_from_chank_16(test, 3) == 4);
+    assert(get30bits_from_chank_16(test, 4) == 13);
+    assert(get30bits_from_chank_16(test, 15) == 1000000000);
+    assert(get30bits_from_chank_16(test, 14) == 1000000000);
+        for(int i = 0; i < 16; i++)
+        set30bits_into_chank_16(test, i, 1000000000 - i);
+    for (int i = 0; i < 16; i++)
+        assert(get30bits_from_chank_16(test, i) == 1000000000 - i);
+
+    delete test;
 #endif
 
 	unsigned int operationsCount = 0;
@@ -125,7 +161,7 @@ int main()
     const unsigned int max_chanks_16 = (100000 * 30) / bits_in_chank + 1;
     
     //below buffer is enought to store 100 000 items with 30 bits each
-    chank_16 values[max_chanks_16];
+    chank_16* values = new chank_16[max_chanks_16];
 	unsigned short int *idx = new unsigned short int[operationsCount];
     
 	char cmd[5] = "";
@@ -162,7 +198,5 @@ int main()
 	}
 
 	delete[] idx;
-//	delete[] values;
- 
 	return 0;
 }

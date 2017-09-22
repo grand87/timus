@@ -1,2 +1,2 @@
 # timus
-My solutions for acm.timus.ru tasks
+My solutions for [Timus contest tasks](http://acm.timus.ru/) based on C++

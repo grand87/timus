@@ -12,7 +12,7 @@ using namespace std;
 
 struct node
 {
-    node(unsigned short aX = -1, unsigned short aY = -1) : x(aX), y(aY)
+    node(unsigned int aX = -1, unsigned int aY = -1) : x(aX), y(aY)
     {
 
     }
@@ -22,8 +22,8 @@ struct node
 
     }
 
-    unsigned short x;
-    unsigned short y;
+    unsigned int x;
+    unsigned int y;
 };
 
 node neighbors[MAX_NEIGHBORS];
@@ -33,10 +33,11 @@ bool diagonals[MAX_GRID_SIZE][MAX_GRID_SIZE];
 
 float diagonalSize = sqrt(100 * 100 + 100 * 100);
 
-unsigned short gridX = 0, gridY = 0, diagonalsCount = 0;
+unsigned int gridX = 0, gridY = 0, diagonalsCount = 0;
 
-void getNeighbors(const node& aNode)
+unsigned int getNeighbors(const node& aNode)
 {
+    unsigned int count = 0;
     const node offsets[] = { node(0,1), node(1,0), node(1,1), node(0,-1), node(-1,0), node(1,-1), node(-1,-1), node(-1,1) };
 
     for (unsigned short i = 0; i < MAX_NEIGHBORS; ++i)
@@ -47,24 +48,70 @@ void getNeighbors(const node& aNode)
         if (nX >= 0 && nX < gridX && nY >= 0 && nY < gridY)
         {
             if (i < 2)
+            {
                 neighbors[i] = node(nX, nY);
+                count++;
+            }
             else
                 if (diagonals[nX][nY])
+                {
                     neighbors[i] = node(nX, nY);
+                    count++;
+                }
                 else
                     neighbors[i] = node(-1, -1);
         }
         else
             neighbors[i] = node(-1, -1);
     }
+    return count;
 }
 
-node getByIndex(unsigned short id)
+node getByIndex(unsigned int id)
 {
     return node(id % gridX, id / gridX);
 }
 
 #define INF 99999999999.99;
+
+template <typename T> struct Queue
+{
+    Queue() : top(0)
+    {
+
+    }
+
+    void push(const T& t)
+    {
+        if(top + 1 < MAX_NODES)
+            buffer[top++] = t;
+    }
+
+    const T* pop()
+    {
+        if (top > 0)
+            return &buffer[--top];
+        return 0;
+    }
+
+    unsigned int size() const
+    {
+        return top;
+    }
+
+    const T* get(unsigned int index)
+    {
+        if (index < top)
+            return buffer[index];
+        else
+            return 0;
+    }
+
+    T buffer[MAX_NODES];
+    unsigned int top;
+};
+
+Queue<unsigned int> vertexesToProcess;
 
 double deikstra(unsigned int target, unsigned int size)
 {
@@ -78,49 +125,42 @@ double deikstra(unsigned int target, unsigned int size)
     unsigned int activeVertexID;
 
     dist[0] = 0;
+    visited[0] = true;
 
-    do
+    vertexesToProcess.push(0);
+
+    while (vertexesToProcess.size() > 0)
     {
-        minDist = INF;
-        activeVertexID = -1;
+        activeVertexID = *vertexesToProcess.pop();
+        minDist = dist[activeVertexID];
 
-        //improve to queue
-        for (unsigned int i = 0; i < size; ++i)
+        //updates weights for all neighbors
+        node active = getByIndex(activeVertexID);
+        unsigned int nc = getNeighbors(active);
+
+        for (unsigned short i = 0; i < nc; ++i)
         {
-            if (!visited[i] && dist[i] < minDist)
+            const node& neighbor = neighbors[i];
+
+            if (neighbor.x < (unsigned int)-1)
             {
-                minDist = dist[i];
-                activeVertexID = i;
-            }
-        }
+                const unsigned int nId = neighbor.y * gridX + neighbor.x;
 
-        if (activeVertexID < -1)
-        {
-            visited[activeVertexID] = true;
-
-            //updates weights for all neighbors
-            node active = getByIndex(activeVertexID);
-            getNeighbors(active);
-
-            for (unsigned short i = 0; i < MAX_NEIGHBORS; ++i)
-            {
-                if (neighbors[i].x < (unsigned short)-1)
+                double temp;
+                if (i == 2) //only diaginal could be 3rd
+                    temp = minDist + diagonalSize;
+                else
+                    temp = minDist + 100;
+                if (temp < dist[nId])
+                    dist[nId] = temp;
+                if (!visited[nId])
                 {
-                    unsigned int nId = neighbors[i].y * gridX + neighbors[i].x;
-                    //improve with diagonals
-
-                    double temp;
-                    if (diagonals[neighbors[i].x][neighbors[i].y])
-                        temp = minDist + diagonalSize;
-                    else
-                        temp = minDist + 100;
-                    if (temp < dist[nId])
-                        dist[nId] = temp;
+                    visited[nId] = true;
+                    vertexesToProcess.push(nId);
                 }
             }
         }
-
-    } while (activeVertexID < -1);
+    }
 
     return dist[target];
 }

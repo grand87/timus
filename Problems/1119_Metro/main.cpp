@@ -3,12 +3,12 @@
 
 using namespace std;
 
-#define MAX_GRID_SIZE 1000
+#define MAX_GRID_SIZE 1001
 
 //direction are right, up, right-up 
 #define MAX_NEIGHBORS 3
-
 #define MAX_NODES (MAX_GRID_SIZE + 1) * (MAX_GRID_SIZE + 1)
+#define INF 99999999999.99;
 
 struct node
 {
@@ -26,43 +26,55 @@ struct node
     unsigned int y;
 };
 
-node neighbors[MAX_NEIGHBORS];
-double dist[MAX_NODES];
-bool visited[MAX_NODES];
-bool diagonals[MAX_GRID_SIZE][MAX_GRID_SIZE];
+typedef long double Distance;
 
-float diagonalSize = sqrt(100 * 100 + 100 * 100);
+const node offsets[] = { node(1,0), node(0,1), node(1,1) };
+
+node neighbors[MAX_NEIGHBORS];
+Distance dist[MAX_NODES];
+bool diagonals[MAX_GRID_SIZE][MAX_GRID_SIZE];
+long double distances[MAX_GRID_SIZE][MAX_GRID_SIZE];
+
+Distance diagonalSize = sqrt(100 * 100 + 100 * 100);
 
 unsigned int gridX = 0, gridY = 0, diagonalsCount = 0;
 
 unsigned int getNeighbors(const node& aNode)
 {
     unsigned int count = 0;
-    const node offsets[] = { node(0,1), node(1,0), node(1,1), node(0,-1), node(-1,0), node(1,-1), node(-1,-1), node(-1,1) };
+    unsigned int max_n = MAX_NEIGHBORS;
 
-    for (unsigned short i = 0; i < MAX_NEIGHBORS; ++i)
+    for (unsigned short i = 0; i < max_n; ++i)
     {
         const unsigned short nX = aNode.x + offsets[i].x;
-        const unsigned short nY = aNode.y + offsets[i].y;
-
-        if (nX >= 0 && nX < gridX && nY >= 0 && nY < gridY)
+        if (nX < 0 || nX > gridX)
         {
-            if (i < 2)
+            neighbors[i] = node(-1, -1);
+            //diagonal in this case also imposible - if there is no cells above
+            max_n = 2;
+            continue;
+        }
+        const unsigned short nY = aNode.y + offsets[i].y;
+        if (nY < 0 || nY > gridY)
+        {
+            neighbors[i] = node(-1, -1);
+            //diagonal in this case also imposible - if there is no cells above
+            break;
+        }
+
+        if (i < 2)
+        {
+            neighbors[i] = node(nX, nY);
+            count++;
+        }
+        else
+            if (diagonals[nX][nY])
             {
                 neighbors[i] = node(nX, nY);
                 count++;
             }
             else
-                if (diagonals[nX][nY])
-                {
-                    neighbors[i] = node(nX, nY);
-                    count++;
-                }
-                else
-                    neighbors[i] = node(-1, -1);
-        }
-        else
-            neighbors[i] = node(-1, -1);
+                neighbors[i] = node(-1, -1);
     }
     return count;
 }
@@ -72,97 +84,97 @@ node getByIndex(unsigned int id)
     return node(id % gridX, id / gridX);
 }
 
-#define INF 99999999999.99;
-
 template <typename T> struct Queue
 {
-    Queue() : top(0)
+    Queue() : _top(0)
     {
 
     }
 
     void push(const T& t)
     {
-        if(top + 1 < MAX_NODES)
-            buffer[top++] = t;
+        buffer[_top] = t;
+        ++_top;
+    }
+    
+    void pop()
+    {
+        --_top;
     }
 
-    const T* pop()
+    const T* top()
     {
-        if (top > 0)
-            return &buffer[--top];
-        return 0;
+        return get(_top - 1);
     }
 
     unsigned int size() const
     {
-        return top;
+        return _top;
     }
 
     const T* get(unsigned int index)
     {
-        if (index < top)
-            return buffer[index];
-        else
-            return 0;
+        return &buffer[index];
     }
 
     T buffer[MAX_NODES];
-    unsigned int top;
+    unsigned int _top;
 };
 
 Queue<unsigned int> vertexesToProcess;
 
-double deikstra(unsigned int target, unsigned int size)
+Distance deikstra(unsigned int target, unsigned int size)
 {
     for (unsigned int i = 0; i < size; ++i)
-    {
         dist[i] = INF;
-        visited[i] = false;
-    }
-
-    double minDist;
-    unsigned int activeVertexID;
+    Distance md = INF;
+    Distance temp;
 
     dist[0] = 0;
-    visited[0] = true;
-
     vertexesToProcess.push(0);
-
+    
     while (vertexesToProcess.size() > 0)
     {
-        activeVertexID = *vertexesToProcess.pop();
-        minDist = dist[activeVertexID];
+        const unsigned int activeVertexID = *vertexesToProcess.top();
+        vertexesToProcess.pop();
+
+        //get all neighbors (max 3)
+        node active_node(activeVertexID % gridX, activeVertexID / gridX);
+        unsigned int nc = getNeighbors(active_node);
 
         //updates weights for all neighbors
-        node active = getByIndex(activeVertexID);
-        unsigned int nc = getNeighbors(active);
-
         for (unsigned short i = 0; i < nc; ++i)
         {
             const node& neighbor = neighbors[i];
+            const unsigned int nId = neighbor.y * gridX + neighbor.x;
 
-            if (neighbor.x < (unsigned int)-1)
+            if (i == 2) //only diagonal could be 3rd
+                temp = dist[activeVertexID] + diagonalSize;
+            else
+                temp = dist[activeVertexID] + 1;
+
+            if ((activeVertexID == 0) || (dist[nId] > temp && md > temp))
             {
-                const unsigned int nId = neighbor.y * gridX + neighbor.x;
+                dist[nId] = temp;
 
-                double temp;
-                if (i == 2) //only diaginal could be 3rd
-                    temp = minDist + diagonalSize;
-                else
-                    temp = minDist + 100;
-                if (temp < dist[nId])
-                    dist[nId] = temp;
-                if (!visited[nId])
-                {
-                    visited[nId] = true;
+                if (nId != target)
                     vertexesToProcess.push(nId);
-                }
+                else
+                    md = dist[nId];
             }
         }
     }
-
     return dist[target];
+}
+
+long double min(long double val1, long double val2, long double val3)
+{
+    if (val1 <= val2 && val1 <= val3)
+        return val1;
+    if (val2 <= val1 && val2 <= val3)
+        return val2;
+    if (val3 <= val1 && val3 <= val2)
+        return val3;
 }
 
 int main()
@@ -181,20 +193,32 @@ int main()
     for (unsigned int i = 0; i < gridX; ++i)
         for (unsigned int j = 0; j < gridY; ++j)
         {
-            diagonals[i][j] = 0;
+            diagonals[i][j] = false;
         }
 
     for (unsigned int i = 0; i < diagonalsCount; ++i)
     {
         unsigned x, y;
         cin >> x >> y;
-        diagonals[x][y] = 1;
+        diagonals[x][y] = true;
     }
 
-    const unsigned int vertexes = gridX * gridY;
+    distances[0][0] = 0;
 
-    //init grid vertexes
-    double length = deikstra(vertexes - 1, vertexes);
+    for (unsigned int i = 0; i < gridX; ++i)
+        for (unsigned int j = 0; j < gridY; ++j)
+        {
+            if (i == 0 && j == 0)
+                continue;
 
-    cout << ceil(length);
+            long double d1 = i == 0 ? distances[i][j - 1] + 100 : distances[i - 1][j] + 100; //left
+            long double d2 = j == 0 ? distances[i - 1][j] + 100 : distances[i][j - 1] + 100; //bottom
+            long double d3 = diagonals[i][j] ? distances[i - 1][j - 1] + diagonalSize : INF; //left-bottom
+
+            distances[i][j] = min(d1, d2, d3);
+        }
+
+    Distance length = distances[gridX - 1][gridY - 1];
+
+    cout << round(length);
 }

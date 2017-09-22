@@ -17,6 +17,8 @@ int main()
     std::list<int>::iterator prev_peak;
     bool max_removed = true;
 
+    unsigned int values_red = 0;
+
     while (true)
     {
         int new_value = 0;
@@ -25,12 +27,17 @@ int main()
         if (new_value == -1)
             break;
 
-        if (magnetic_values.size() < period)
-            magnetic_values.push_back(new_value);
-       
-        if (magnetic_values.size() == period)
+        //skip the repeating values
+        if (magnetic_values.size() < 2 || new_value != magnetic_values.back() || new_value > last_peak)
         {
-            // locate max in current stak
+            magnetic_values.push_back(new_value);
+        }
+
+        if (values_red < period - 1)
+            values_red++;
+        else
+        {
+            // locate max in current stack
             if (max_removed)
             {
                 prev_peak = std::max_element(magnetic_values.begin(), magnetic_values.end());

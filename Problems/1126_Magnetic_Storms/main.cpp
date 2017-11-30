@@ -2,59 +2,84 @@
 #include <list>
 #include <algorithm>
 
+using namespace std;
+
+struct heap
+{
+    int max;
+    int maxPosition;
+
+    heap()
+    {
+        max = 0;
+        maxPosition = 0;
+    }
+
+    std::list<int> data;
+
+    void push(int value)
+    {
+        data.push_back(value);
+        if (value > max)
+        {
+            max = value;
+            maxPosition = data.size() - 1;
+        }
+    }
+
+    int getMax() const
+    {
+        return max;
+    }
+
+    void pop()
+    {
+        data.pop_front();
+        if (maxPosition == 0)
+        {
+            max = 0;
+            //search for a new max
+            int pos = 0;
+            for (std::list<int>::const_iterator it = data.begin(); it != data.end(); ++it, ++pos)
+            {
+                if (*it > max)
+                {
+                    max = *it;
+                    maxPosition = pos;
+                }
+            }
+        }
+        else
+            --maxPosition;
+    }
+};
+
 int main()
 {
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "rt", stdin);
-    freopen("output.txt", "wt", stdout);
+    //freopen("output.txt", "wt", stdout);
 #endif
     
-    unsigned int period = 0;
-    std::cin >> period;
+    int duration = 0;
+    cin >> duration;
+    int step = 0;
 
-    std::list<int> magnetic_values;
-    int last_peak = -1;
-    std::list<int>::iterator prev_peak;
-    bool max_removed = true;
-
-    unsigned int values_red = 0;
+    heap h;
 
     while (true)
     {
-        int new_value = 0;
-        std::cin >> new_value;
-
-        if (new_value == -1)
+        int value;
+        cin >> value;
+        if (value == -1)
             break;
-
-        //skip the repeating values
-        if (magnetic_values.size() < 2 || new_value != magnetic_values.back() || new_value > last_peak)
+  
+        h.push(value);
+        ++step;
+        if (step >= duration)
         {
-            magnetic_values.push_back(new_value);
+            cout << h.getMax() << endl;
+            h.pop();
         }
-
-        if (values_red < period - 1)
-            values_red++;
-        else
-        {
-            // locate max in current stack
-            if (max_removed)
-            {
-                prev_peak = std::max_element(magnetic_values.begin(), magnetic_values.end());
-                last_peak = *prev_peak;
-            }
-            else
-            {
-                if (new_value > last_peak)
-                {
-                    last_peak = new_value;
-                    prev_peak = magnetic_values.end()--;
-                }
-            }
-            std::cout << last_peak << std::endl;
-            std::list<int>::iterator removed = magnetic_values.begin();
-            max_removed = removed == prev_peak;
-            magnetic_values.pop_front();
-       }
-   }
+    }
 }

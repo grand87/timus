@@ -6,6 +6,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <algorithm>
 
 //#define ONLINE_JUDGE
 
@@ -19,41 +20,60 @@ int main()
     int y = 0;
 
     scanf("%d %d", &x, &y);
+    --x;
+    --y;
 
-    if(x == y)
+    if (x < y)
     {
-        printf("%d", x - 1);
-        return 0;
+        std::swap(x, y);
     }
 
-    const int deltaX = abs(x - 1);
-    const int deltaY = abs(y - 1);
-
-    size_t startx = 0;
-    size_t starty = 0;
-    size_t blocks = 0;
-
-    int error = x - y;
-
-    while(startx != x && starty != y)
+    if (x == y)
     {
-        ++blocks;
-        
-        const int error2 = error * 2;
-        //
-        if(error2 > -deltaY)
-        {
-            error -= deltaY;
-            startx += 1;
-        }
-        if(error2 < deltaX)
-        {
-            error += deltaX;
-            starty += 1;
-        }
+        printf("%d", x);
     }
+    else if (x == 1)
+    {
+        printf("%d", y);
+    }
+    else if (y == 1)
+    {
+        printf("%d", x);
+    }
+    else if (x % y == 0) //checking GCD - Greatest common divisor 
+    {
+        printf("%d", x);
+    }
+    else 
+    {
+        //Bresenham's line algorithm
+        int x1 = 0;
+        int y1 = 0;
+        int p = 1;
 
-    printf("%d", blocks);
+        int deltaX = x;
+        int deltaY = y;
 
+        int error = 0;
+        int deltaerr = deltaY;
+
+        for (int i = 0; i < x - 1; ++i)
+        {
+            //printf("%d %d\n", x1, y1);
+            error += deltaerr;
+            if (2 * error > deltaX)
+            {
+//                y1 += 1;
+                error -= deltaX;
+                if (error != 0)
+                {
+                    p++;
+                }
+            }
+//            x1 += 1;
+            p++;
+        }
+        printf("%d", p);
+    }
     return 0;
 }

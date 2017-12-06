@@ -1,14 +1,28 @@
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+Visited Isenbaev
+Visited Oparin
+Visited Toropov
+Visited Fominykh
+Visited Oparin
+Visited Toropov
+Visited Ayzenshteyn
+Visited Samsonov
+Visited Fominykh
+Visited Dublennykh
+Visited Ivankov
+Visited Ayzenshteyn
+Visited Samsonov
+Visited Samsonov
+Visited Chevdar
+Visited Samsonov
+Visited Chevdar
+Visited Dublennykh
+Visited Ivankov
+Visited Ivankov
+Visited Burmistrov
+Visited Kurpilyanskiy
+Visited Chevdar
+Visited Chevdar
+Visited Chevdar
+Visited Burmistrov
+Visited Kurpilyanskiy
+Visited Kurpilyanskiy

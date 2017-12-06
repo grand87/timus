@@ -6,72 +6,92 @@
 */
 
 #include <iostream>
-#include <string>
-#include <map>
+#include <vector>
+#include <list>
+#include <algorithm>
+#include <functional>
 
-struct UserMatrix
+using namespace std;
+
+const int MAX_NAME_LENGTH = 21;
+const int MAX_USERS = 4 * 100;
+
+struct user
 {
-    UserMatrix(int aSize, int defaultValue = 0) : size(aSize)
+    user()
     {
-        matrix = new int*[size];
-        for (int user = 0; user < size; ++user)
-        {
-            matrix[user] = new int[size];
-            for (int u = 0; u < size; ++u)
-                matrix[user][u] = defaultValue;
-        }
+        name[0] = 0;
+        name_length = 0;
+        distance = -1;
     }
 
-    ~UserMatrix()
+    user(const char* name)
     {
-        if (matrix != 0)
-            for (int user = 0; user < size; ++user)
-                delete[] matrix[user];
-            delete[] matrix;
-            matrix = 0;
+        set(name);
+        distance = -1;
     }
 
-    void dump(int userCount)
+    void set(const char* name)
     {
-        for (int user = 0; user < userCount; ++user)
-        {
-            for (int u = 0; u < userCount; ++u)
-                std::cout << matrix[user][u] << " ";
-            std::cout << std::endl;
-        }
+        strcpy(this->name, name);
+        name_length = strlen(name);
     }
 
-    int size;
-    int** matrix;
+    char name[MAX_NAME_LENGTH];
+    int name_length;
+    int distance;
 };
 
-int getIValue(int** links, int userIdx, int isenbaevIdx, int userCount)
+int findUser(const char* name, int count, const user* users)
 {
-    // need to find path to Isenbayev
-    if (userIdx == isenbaevIdx)
-    {
-        return 0;
-    }
+    const int size = strlen(name);
 
-    for (int i = 0 ; i < userCount; ++i)
+    for (int i = 0; i < count; ++i)
     {
-        if (i != userIdx)
+        if (users[i].name_length == size && strcmp(users[i].name, name) == 0)
+            return i;
+    }
+    return -1;
+}
+
+void addConnection(vector<int> *connections, int v1, int v2)
+{
+    connections[v1].push_back(v2);
+    connections[v2].push_back(v1);
+}
+
+void calculateDistances(int rootVertex, const vector<int> *connections, user* users, int usersCount)
+{
+    bool visited[MAX_USERS];
+    memset(visited, 0, MAX_USERS);
+
+    list<int> toVisit;
+    toVisit.push_back(rootVertex);
+    while (toVisit.size())
+    {
+        const int currentVertex = toVisit.front();
+        toVisit.pop_front();
+        visited[currentVertex] = true;
+        const int distance = users[currentVertex].distance + 1;
+
+        for (vector<int>::const_iterator it = connections[currentVertex].begin(); it != connections[currentVertex].end(); ++it)
         {
-            if (links[userIdx][i] != 0 && i == isenbaevIdx)
+            if (!visited[*it])
             {
-                return 1;
-            }
-            else
-            {
-                if (links[userIdx][i] != 0)
-                {
-                    return 1 + getIValue(links, i, isenbaevIdx, userCount);
-                }
+                visited[*it] = true;
+                toVisit.push_back(*it);
+                if(users[*it].distance == -1 || users[*it].distance > distance)
+                    users[*it].distance = distance;
             }
         }
+//        cout << "Visited " << users[currentVertex].name << " " << users[currentVertex].distance << endl;
     }
+}
 
-    return -1;
+bool toLeft(const user& a, const user& b)
+{
+    less<string> cmp;
+    return cmp(a.name, b.name);
 }
 
 int main()
@@ -79,78 +99,55 @@ int main()
     setbuf(stdout, NULL);
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "rt", stdin);
-    freopen("output.txt", "wt", stdout);
+    //freopen("output.txt", "wt", stdout);
 #endif
+
+    int users = 0;
+    user all_users[MAX_USERS];
 
     int teamsCount;
     std::cin >> teamsCount;
 
-    char name[3][21] = { "", "", "" };
+    vector<int> connections[MAX_USERS];
 
-    typedef std::map<std::string, int> UserIds;
-    UserIds userIds;
-
-    // could be optimized
-    const int maxUsers = teamsCount * 3;
-    
-    // create adjacency matrix
-    UserMatrix *linksMatrix = new UserMatrix(maxUsers);
-
-    int isenbaevIdx = -1;
-
-    for (char i = 0; i < teamsCount; ++i)
+    for (int i = 0; i < teamsCount; ++i)
     {
-        bool isenbaevHere = false;
+        char name[MAX_NAME_LENGTH];
+        int connected[3];
 
-        // read team content
-        for (int i = 0; i < 3; ++i)
+        for (int n = 0; n < 3; ++n)
         {
-            std::cin >> name[i];
-
-            //generate unique ID for user
-            if (userIds.find(name[i]) == userIds.end())
+            cin >> name;
+            int userID = findUser(name, users, all_users);
+            if (userID == -1)
             {
-                userIds[name[i]] = userIds.size();
-                if (strcmp(name[i], "Isenbaev") == 0)
-                {
-                    isenbaevIdx = userIds.size();
-                }
+                userID = users;
+                all_users[userID].set(name);
+                connected[n] = userID;
+                ++users;
             }
-
-            //if (strcmp(name[i], "Isenbaev") == 0)
-            //{
-            //    isenbaevHere = true;
-            //    if (isenbaevIdx == -1)
-            //    {
-            //        
-            //    }
-            //}
+            else
+                connected[n] = userID;
         }
 
-        //for (int i = 0; i < 3; ++i)
-        //{
-        //    int uID = userIds[name[i]];
-
-        //    // update links matrix
-        //    for (int j = 0; j < 3; ++j)
-        //    {
-        //        if (i != j)
-        //        {
-        //            int neiberID = userIds[name[j]];
-        //            links[uID][neiberID] = 1;
-        //            //links[neiberID][uID] = 1;
-        //        }
-        //    }
-        //}
+        //define connections
+        addConnection(connections, connected[0], connected[1]);
+        addConnection(connections, connected[1], connected[2]);
+        addConnection(connections, connected[0], connected[2]);
     }
 
-    linksMatrix->dump(userIds.size());
+    int rootID = findUser("Isenbaev", users, all_users);
+    all_users[rootID].distance = 0;
+    calculateDistances(rootID, connections, all_users, users);
 
-    //for (auto user : userIds)
-    //{
-    //    auto value = getIValue(links, user.second, isenbaevIdx, userIds.size());
-    //    std::cout << "[" << user.second << "]" << user.first.c_str() << " " << value << std::endl;
-    //}
+    sort(all_users, all_users + users, &toLeft);
 
-    delete linksMatrix;
+    for (int i = 0; i < users; ++i)
+    {
+        cout << all_users[i].name << " ";
+        if (all_users[i].distance == -1)
+            cout << "undefined\n";
+        else
+            cout << all_users[i].distance << endl;
+    }
 }

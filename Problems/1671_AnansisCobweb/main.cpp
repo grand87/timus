@@ -4,62 +4,55 @@
 
 using namespace std;
 
-const int MAX_N = 100000;
-typedef list<int> connectedVertexes;
-
-void evaluateConnected(connectedVertexes *graph, int startVertex, bool* vertexIsVisited)
-{
-    int activeVertex = startVertex;
-    list<int> vertexesToVisit;
-    vertexesToVisit.push_back(activeVertex);
-    while (vertexesToVisit.size() > 0)
-    {
-        activeVertex = vertexesToVisit.front();
-        vertexesToVisit.pop_front();
-        vertexIsVisited[activeVertex] = true;
-
-        for (list<int>::iterator it = graph[activeVertex].begin(); it != graph[activeVertex].end(); ++it)
-        {
-            if (*it != 0 && !vertexIsVisited[*it])
-                vertexesToVisit.push_back(*it);
-        }
-    }
-}
-
-//located first unvisited vertex
-int getUnvisited(const bool* vertexIsVisited, int count)
-{
-    for (int i = 1; i <= count; i++)
-    {
-        if (!vertexIsVisited[i])
-            return i;
-    }
-    return -1;
-}
-
-int getConnComponents(int vertexCount, connectedVertexes *graph)
-{
-    int components = 0;
-
-    bool vertexIsVisited[MAX_N + 1];
-    memset(vertexIsVisited, 0, (MAX_N + 1) * sizeof vertexIsVisited[0]);
-
-    int toVisit = getUnvisited(vertexIsVisited, vertexCount);
-    while (toVisit != -1)
-    {
-        evaluateConnected(graph, toVisit, vertexIsVisited);
-        components++;
-        toVisit = getUnvisited(vertexIsVisited, vertexCount);
-    }
-
-    return components;
-}
+const int MAX_N = 100001;
 
 struct edge
 {
     int first;
     int second;
 };
+
+struct DSU
+{
+    int parent[MAX_N];
+    int size;
+
+    DSU()
+    {
+        memset(parent, 0, MAX_N * sizeof(int));
+        size = 0;
+    }
+
+    void add(int value)
+    {
+        parent[value] = value;
+        ++size;
+    }
+
+    int find_set(int value)
+    {
+        if (value == parent[value])
+            return value;
+        return find_set(parent[value]);
+    }
+
+    bool union_sets(int a, int b)
+    {
+        a = find_set(a);
+        b = find_set(b);
+        if (a != b)
+        {
+            parent[b] = a;
+            return true;
+        }
+        return false;
+    }
+};
+
+edge links[MAX_N];
+edge linksSecond[MAX_N];
+int toRemove[MAX_N];
+DSU dsu;
 
 int main()
 {
@@ -70,52 +63,56 @@ int main()
     int n, m;
     cin >> n >> m;
 
-    edge edges[MAX_N + 1];
-    connectedVertexes *graph = new connectedVertexes[MAX_N + 1];
+    //generate disjoint set based on n vertexes
+    for (int i = 0; i < n; ++i)
+    {
+        dsu.add(i + 1);
+    }
 
     for (int i = 0; i < m; ++i)
     {
         int v1, v2;
-        cin >> v1 >> v2;
-        graph[v1].push_back(v2);
-        graph[v2].push_back(v1);
-        edges[i + 1].first = v1;
-        edges[i + 1].second = v2;
+        cin >> links[i].first >> links[i].second;
     }
 
-    //generate connectivity components
+    int r;
+    cin >> r;
 
-    int edgesToRemove;
-    cin >> edgesToRemove;
-
-    for (int i = 0; i < edgesToRemove; ++i)
+    for (int i = 0; i < r; ++i)
     {
-        //remove some edge
-        int edgeIndex;
-        cin >> edgeIndex;
+        int indexToRemove;
+        cin >> indexToRemove;
 
-        const edge e = edges[edgeIndex];
+        linksSecond[i] = links[indexToRemove - 1];
+        links[indexToRemove - 1].first = -1;
+    }
 
-        for (list<int>::iterator it = graph[e.first].begin(); it != graph[e.first].end(); ++it)
-        {
-            if (*it == e.second)
-            {
-                graph[e.first].erase(it);
-                break;
-            }
-        }
+    //insert edges which would not be removed & calculate the amount of sets
+    int count = dsu.size;
 
-        for (list<int>::iterator it = graph[e.second].begin(); it != graph[e.second].end(); ++it)
-        {
-            if (*it == e.first)
-            {
-                graph[e.second].erase(it);
-                break;
-            }
-        }
+    for (int i = 0; i < m; ++i)
+    {
+        if (links[i].first != -1)
+            dsu.size -= dsu.union_sets(links[i].first, links[i].second) ? 1 : 0;
+    }
 
-        int components = getConnComponents(n, graph);
+    // calculate count of components
+    list<int> sizeHistory;
+    sizeHistory.push_back(dsu.size);
 
-        std::cout << components << " ";
+    //add edges in the reverse of removing order
+    for (int e = 0; e < r; ++e)
+    {
+        edge edgeToAdd = linksSecond[r - e - 1];
+        dsu.size -= dsu.union_sets(edgeToAdd.first, edgeToAdd.second) ? 1 : 0;
+        sizeHistory.push_back(dsu.size);
+    }
+
+    sizeHistory.pop_back();
+
+    for (int i = 0; i < r; ++i)
+    {
+        cout << sizeHistory.back() << " ";
+        sizeHistory.pop_back();
     }
 }

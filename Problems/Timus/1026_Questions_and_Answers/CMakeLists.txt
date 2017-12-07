@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 2.6)
+
+set(PROJECT_NAME 1026_Questions_and_Answers)
+
+SET(EXECUTABLE_OUTPUT_PATH "${PROJECT_SOURCE_DIR}")
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}")
+
+project (${PROJECT_NAME})
+
+if(MSVC)
+    set(CMAKE_CXX_FLAGS "-W3 ${CMAKE_CXX_FLAGS}")
+endif(MSVC)
+
+add_executable(${PROJECT_NAME} src/main.cpp)
+set_target_properties(${PROJECT_NAME} PROPERTIES FOLDER ${PARENT_PROJECT})

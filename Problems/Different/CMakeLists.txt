@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+
+SET(PARENT_PROJECT Different)
+project (${PARENT_PROJECT})
+
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/0001_Algo_PriorityQueue "${CMAKE_CURRENT_BINARY_DIR}/0001_Algo_PriorityQueue")

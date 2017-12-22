@@ -49,14 +49,45 @@ int getDigit(char a)
     return -1;
 }
 
+int CharToDigitMap[] = {
+    2,//a
+    2,//b
+    2,//c
+    3,//d
+    3,//e
+    3,//f
+    4,//g
+    4,//h
+    1,//i
+    1,//j
+    5,//k
+    5,//l
+    6,//m
+    6,//n
+    0,//o
+    7,//p
+    0,//q
+    7,//r
+    7,//s
+    8,//t
+    8,//u
+    8,//v
+    9,//w
+    9,//x
+    9,//y
+    0//z
+};
+
+//could be speed up if use map[char, digit]
 void encodeWord(const char word[51], char phone[51])
 {
     int i = 0;
     while (word[i])
     {
-        phone[i] = getDigit(word[i]) + '0';
+        phone[i] = CharToDigitMap[word[i] - 'a'] + '0';
         ++i;
     }
+    phone[i] = 0;
 }
 
 struct word
@@ -82,11 +113,8 @@ struct word
 };
 
 typedef vector<word> words;
-words dictNumber[10];
-
 typedef pair<int, int> option;
 typedef vector<option> OptionList;
-
 struct OptioneDefinition
 {
     OptioneDefinition()
@@ -171,11 +199,14 @@ int generatePhrase(const char phone[101], int len, int position, const words dic
             //if there is already more shortes combination - need to terminate
 
             int mOpt = getMinOption(opts);
-            if (opts[internalOptionID].list.size() < mOpt)
+            if (opts[internalOptionID].list.size() <= mOpt)
             {
                 //check is there should be added more words or it is final iteration
                 if (dictNumber[digit][options[i]].len == len - position)
+                {
+                    opts[internalOptionID].fixed = true;
                     return internalOptionID;
+                }
 
                 // need to continue possible options
 
@@ -184,8 +215,6 @@ int generatePhrase(const char phone[101], int len, int position, const words dic
                     opts[internalOptionID].list.clear();
                     opts[internalOptionID].terminate = true;
                 }
-                else
-                    opts[internalOptionID].fixed = true;
             }
             else
                 opts[internalOptionID].terminate = true;
@@ -201,22 +230,22 @@ int main()
 //   freopen("output.txt", "wt", stdout);
 #endif
     
-    char phone[101];
-    int dictSize = 0;
-
-    char w[51];
-
     while (true)
     {
+        char phone[101];
+
         cin >> phone;
         if (phone[0] == '-')
             break;
 
+        int dictSize = 0;
         cin >> dictSize;
+
+        words dictNumber[10];
         for (int i = 0; i < dictSize; ++i)
         {
+            char w[51];
             cin >> w;
-
             const int id = getDigit(w[0]);
             dictNumber[id].push_back(word(w));
         }
@@ -230,8 +259,9 @@ int main()
 
         const int len = strlen(phone);
         OptionsList opts;
-        //if (generatePhrase(phone, len, 0, dictNumber, opts) == -1)
+
         generatePhrase(phone, len, 0, dictNumber, opts);
+
         int shortes = 100000;
         int index = -1;
 

@@ -109,7 +109,7 @@ int main()
 
     // now we have sorted list of contests & sorted list of open & close for warmholes
     for (int startIndex = 0; startIndex < n; ++startIndex) {
-        //for each contest based on binary searc hwe need to find the most closes open & close wormhole
+        //for each contest based on binary search we need to find the most closes open & close wormhole
         int* closestStart = std::lower_bound(v, v + vCount, contest[startIndex].start);
         if (*closestStart != contest[startIndex].start) {
             if (closestStart != v && *(closestStart - 1) <= contest[startIndex].start)
@@ -118,12 +118,9 @@ int main()
                 continue;
         }
 
-        int* closestStop = std::upper_bound(w, w + wCount, contest[startIndex].end);
-        if (*closestStop < contest[startIndex].end) {
-            if (*closestStop == w[wCount] && w[wCount - 1] >= contest[startIndex].end)
-                closestStop--;
-            else
-                continue;
+        int* closestStop = std::lower_bound(w, w + wCount, contest[startIndex].end);
+        if (closestStop == w + wCount) {
+            continue;
         }
 
         int ans = *closestStop - *closestStart + 1;

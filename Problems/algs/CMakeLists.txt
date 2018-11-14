@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.8)
+
+SET(PARENT_PROJECT algs)
+project (${PARENT_PROJECT})
+
+ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/1000_quicksort "${CMAKE_CURRENT_BINARY_DIR}/1000_quicksort")

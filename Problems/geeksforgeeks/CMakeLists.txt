@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 SET(PARENT_PROJECT geeksforgeeks)
 project (${PARENT_PROJECT})
-
+add_definitions(-DLOCAL_TESTS)
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/kadanes-algorithm "${CMAKE_CURRENT_BINARY_DIR}/kadanes-algorithm")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/is-sudoku-valid "${CMAKE_CURRENT_BINARY_DIR}/is-sudoku-valid")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/number-of-unique-paths "${CMAKE_CURRENT_BINARY_DIR}/number-of-unique-paths")
@@ -23,3 +23,4 @@ ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/detect-loop-in-linked-list "${CMAKE_CURRE
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/remove-loop-in-linked-list "${CMAKE_CURRENT_BINARY_DIR}/remove-loop-in-linked-list")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/sort-a-stack "${CMAKE_CURRENT_BINARY_DIR}/sort-a-stack")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/min-distance-between-two-given-nodes-of-a-binary-tree "${CMAKE_CURRENT_BINARY_DIR}/min-distance-between-two-given-nodes-of-a-binary-tree")
+ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/longest-common-subsequence "${CMAKE_CURRENT_BINARY_DIR}/longest-common-subsequence")

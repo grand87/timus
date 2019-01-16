@@ -17,3 +17,4 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/attribute-parser "${CMAKE_CURRENT_B
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/preprocessor-solution "${CMAKE_CURRENT_BINARY_DIR}/preprocessor-solution")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/operator-overloading "${CMAKE_CURRENT_BINARY_DIR}/operator-overloading")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/electronics-shop "${CMAKE_CURRENT_BINARY_DIR}/electronics-shop")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/attending-workshops "${CMAKE_CURRENT_BINARY_DIR}/attending-workshops")

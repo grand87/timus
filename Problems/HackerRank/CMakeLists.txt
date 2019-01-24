@@ -18,3 +18,6 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/preprocessor-solution "${CMAKE_CURR
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/operator-overloading "${CMAKE_CURRENT_BINARY_DIR}/operator-overloading")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/electronics-shop "${CMAKE_CURRENT_BINARY_DIR}/electronics-shop")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/attending-workshops "${CMAKE_CURRENT_BINARY_DIR}/attending-workshops")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/cpp-variadics "${CMAKE_CURRENT_BINARY_DIR}/cpp-variadics")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/climbing-the-leaderboard "${CMAKE_CURRENT_BINARY_DIR}/climbing-the-leaderboard")
+

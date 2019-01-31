@@ -27,3 +27,8 @@ ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/min-distance-between-two-given-nodes-of-a
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/longest-common-subsequence "${CMAKE_CURRENT_BINARY_DIR}/longest-common-subsequence")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/count-all-possible-paths-from-top-left-to-bottom-right "${CMAKE_CURRENT_BINARY_DIR}/count-all-possible-paths-from-top-left-to-bottom-right")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/sum-of-digit-is-pallindrome-or-not "${CMAKE_CURRENT_BINARY_DIR}/sum-of-digit-is-pallindrome-or-not")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/longest-common-subsequence "${CMAKE_CURRENT_BINARY_DIR}/longest-common-subsequence")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/reverse-digit "${CMAKE_CURRENT_BINARY_DIR}/reverse-digit")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/rotate-a-2d-array-without-using-extra-space "${CMAKE_CURRENT_BINARY_DIR}/rotate-a-2d-array-without-using-extra-space")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/remove-b-and-ac-from-a-given-string "${CMAKE_CURRENT_BINARY_DIR}/remove-b-and-ac-from-a-given-string")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/x-total-shapes "${CMAKE_CURRENT_BINARY_DIR}/x-total-shapes")

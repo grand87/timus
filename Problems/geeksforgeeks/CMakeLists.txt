@@ -32,3 +32,5 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/reverse-digit "${CMAKE_CURRENT_BINA
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/rotate-a-2d-array-without-using-extra-space "${CMAKE_CURRENT_BINARY_DIR}/rotate-a-2d-array-without-using-extra-space")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/remove-b-and-ac-from-a-given-string "${CMAKE_CURRENT_BINARY_DIR}/remove-b-and-ac-from-a-given-string")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/x-total-shapes "${CMAKE_CURRENT_BINARY_DIR}/x-total-shapes")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/pairs-with-difference-k "${CMAKE_CURRENT_BINARY_DIR}/pairs-with-difference-k")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/predecessor-and-successor "${CMAKE_CURRENT_BINARY_DIR}/predecessor-and-successor")

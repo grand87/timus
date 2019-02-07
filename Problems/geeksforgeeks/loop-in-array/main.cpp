@@ -4,6 +4,16 @@ using namespace std;
 int loopIDs[1000000] = { 0 };
 int a[1000000];
 
+int locateStartPos(int prevStart, int* array, int *ids, int size) {
+    // need to locate first untouched pos
+    for (int k = prevStart; k < size; k++) {
+        if (ids[k] == 0 && array[k] >= 0 && array[k] < size) {
+            return k;
+        }
+    }
+    return size;
+}
+
 int main()
 {
 #ifndef ONLINE_JUDGE
@@ -23,17 +33,8 @@ int main()
 
         bool loopDetected = false;
         int loopID = 1;
-        int pos = 0;
+        int pos = locateStartPos(0, a, loopIDs, n);
         int lastStartPos = 0;
-
-        // need to locate first untouched pos
-        for (int k = pos; k < n; k++) {
-            if (loopIDs[k] == 0 && a[k] >= 0) {
-                pos = k;
-                lastStartPos = k;
-                break;
-            }
-        }
 
         while (!loopDetected) {
             if (loopIDs[pos] != 0) {
@@ -41,61 +42,38 @@ int main()
                     loopDetected = true;
                     break;
                 } else {
-                    //we located path evaluated before - need to search new path
-                    int oldLoopID = loopID;
                     // need to locate first untouched pos
-                    for (int k = lastStartPos + 1; k < n; k++) {
-                        if (loopIDs[k] == 0 && a[k] > 0) {
-                            pos = k;
-                            lastStartPos = k;
-                            //start to search new loop
-                            loopID++;
-                            break;
-                        }
-                    }
-                    if (loopID == oldLoopID)
-                        //no more from where to go - terminating
+                    pos = locateStartPos(lastStartPos + 1, a, loopIDs, n);
+                    if (pos == n) //no more from where to go - terminating
                         break;
+                    lastStartPos = pos;
+                    loopID++;
+                    continue;
                 }
             }
 
             if (a[pos] < 0) {
-                int oldLoopID = loopID;
                 // need to locate first untouched pos
-                for (int k = lastStartPos + 1; k < n; k++) {
-                    if (loopIDs[k] == 0 && a[k] >= 0) {
-                        pos = k;
-                        lastStartPos = k;
-                        //start to search new loop
-                        loopID++;
-                        break;
-                    }
-                }
-                if(loopID == oldLoopID)
-                    //no more from where to go - terminating
+                pos = locateStartPos(lastStartPos + 1, a, loopIDs, n);
+                if (pos == n) //no more from where to go - terminating
                     break;
+                lastStartPos = pos;
+                loopID++;
+                continue;
             }
 
             loopIDs[pos] = loopID;
-            if(a[pos] != pos) //is self loop located
+            if (a[pos] != pos && a[pos] < n) {
                 pos = a[pos];
-            else {
-                //not consider self loop as loop
-
-                int oldLoopID = loopID;
-                // need to locate first untouched pos
-                for (int k = lastStartPos + 1; k < n; k++) {
-                    if (loopIDs[k] == 0 && a[k] >= 0) {
-                        pos = k;
-                        lastStartPos = k;
-                        //start to search new loop
-                        loopID++;
-                        break;
-                    }
-                }
-                if (loopID == oldLoopID)
-                    //no more from where to go - terminating
+            } else {
+                //is self loop located or out of range index located
+                //not consider self loop as loop - need to locate first untouched pos
+                pos = locateStartPos(lastStartPos + 1, a, loopIDs, n);
+                if (pos == n) //no more from where to go - terminating
                     break;
+                lastStartPos = pos;
+                loopID++;
+                continue;
             }
         }
 

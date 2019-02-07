@@ -4,9 +4,9 @@ using namespace std;
 int loopIDs[1000000] = { 0 };
 int a[1000000];
 
-int locateStartPos(int prevStart, int* array, int *ids, int size) {
+int locateStartPos(int start, int* array, int *ids, int size) {
     // need to locate first untouched pos
-    for (int k = prevStart; k < size; k++) {
+    for (int k = start; k < size; k++) {
         if (ids[k] == 0 && array[k] >= 0 && array[k] < size) {
             return k;
         }
@@ -36,7 +36,7 @@ int main()
         int pos = locateStartPos(0, a, loopIDs, n);
         int lastStartPos = 0;
 
-        while (!loopDetected) {
+        while (!loopDetected && pos < n) {
             if (loopIDs[pos] != 0) {
                 if (loopIDs[pos] == loopID) {
                     loopDetected = true;
@@ -63,7 +63,7 @@ int main()
             }
 
             loopIDs[pos] = loopID;
-            if (a[pos] != pos && a[pos] < n) {
+            if (a[pos] < n) {
                 pos = a[pos];
             } else {
                 //is self loop located or out of range index located

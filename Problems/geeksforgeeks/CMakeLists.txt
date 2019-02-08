@@ -43,3 +43,4 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/level-order-traversal-line-by-line 
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/reverse-level-order-traversal "${CMAKE_CURRENT_BINARY_DIR}/reverse-level-order-traversal")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/right-view-of-binary-tree "${CMAKE_CURRENT_BINARY_DIR}/right-view-of-binary-tree")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/loop-in-array "${CMAKE_CURRENT_BINARY_DIR}/loop-in-array")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/bottom-view-of-binary-tree "${CMAKE_CURRENT_BINARY_DIR}/bottom-view-of-binary-tree")

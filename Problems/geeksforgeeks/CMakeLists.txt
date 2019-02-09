@@ -46,3 +46,5 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/loop-in-array "${CMAKE_CURRENT_BINA
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/bottom-view-of-binary-tree "${CMAKE_CURRENT_BINARY_DIR}/bottom-view-of-binary-tree")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/top-view-of-binary-tree "${CMAKE_CURRENT_BINARY_DIR}/top-view-of-binary-tree")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/k-th-element-of-two-sorted-array "${CMAKE_CURRENT_BINARY_DIR}/k-th-element-of-two-sorted-array")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/triplet-sum-in-array "${CMAKE_CURRENT_BINARY_DIR}/triplet-sum-in-array")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/sum-tree "${CMAKE_CURRENT_BINARY_DIR}/sum-tree")

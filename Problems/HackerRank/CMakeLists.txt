@@ -20,4 +20,7 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/electronics-shop "${CMAKE_CURRENT_B
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/attending-workshops "${CMAKE_CURRENT_BINARY_DIR}/attending-workshops")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/cpp-variadics "${CMAKE_CURRENT_BINARY_DIR}/cpp-variadics")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/climbing-the-leaderboard "${CMAKE_CURRENT_BINARY_DIR}/climbing-the-leaderboard")
-
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/beautiful-days-at-the-movies "${CMAKE_CURRENT_BINARY_DIR}/beautiful-days-at-the-movies")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/permutation-equation "${CMAKE_CURRENT_BINARY_DIR}/permutation-equation")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/fibonacci-modified "${CMAKE_CURRENT_BINARY_DIR}/fibonacci-modified")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/equal "${CMAKE_CURRENT_BINARY_DIR}/equal")

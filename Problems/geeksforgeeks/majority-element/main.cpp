@@ -1,6 +1,5 @@
 #include <iostream>
-#include <map>
-#include <algorithm>
+#include <vector>
 
 using namespace std;
 
@@ -21,33 +20,32 @@ int main()
             cin >> arr[j];
         }
 
-        map<int,int> freq;
+        vector<int> freq(1000000);
 
+        const int minReqFreq = n / 2 + 1;
+
+        int majorSoFar = -1;
+        int majorSoFarValue = 0;
         for (int j = 0; j < n; j++) {
             ++freq[arr[j]];
-        }
-
-        //find the max in array or return -1 if all equals;
-
-        int maxFreq = 0;
-        int maxFreqValue = 0;
-        int prevFreq = 0;
-        bool allEqual = true;
-        bool firstValue = true;
-
-        for (map<int,int>::iterator it = freq.begin(); it != freq.end(); it++) {
-            if (it->second > n/2) {
-                maxFreqValue = it->first;
-                maxFreq = maxFreqValue;
-                allEqual = false;
-                break;
+            if (freq[arr[j]] > majorSoFarValue) {
+                majorSoFarValue = freq[arr[j]];
+                majorSoFar = arr[j];
             }
+            if (freq[arr[j]] >= minReqFreq) {
+                //result
+                break;
+            } else //check is there an option att all to locate more max
+                if (n - j < minReqFreq - majorSoFarValue) {
+                    //no possibilty to locate more items in any way
+                    break;
+                }
         }
 
-        if (allEqual)
-            cout << "-1\n";
+        if (majorSoFarValue > n / 2)
+            cout << majorSoFar << endl;
         else
-            cout << maxFreqValue << endl;
+            cout << "-1\n";
     }
     return 0;
 }

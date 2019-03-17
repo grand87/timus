@@ -12,4 +12,7 @@ ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/find-duplicates-in-an-array "${CMAKE_CURR
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/trapping-rain-water "${CMAKE_CURRENT_BINARY_DIR}/trapping-rain-water")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/rotate-array-by-n-elements "${CMAKE_CURRENT_BINARY_DIR}/rotate-array-by-n-elements")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/pair-with-given-sum-in-a-sorted-array "${CMAKE_CURRENT_BINARY_DIR}/pair-with-given-sum-in-a-sorted-array")
-
+ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/spirally-traversing-a-matrix "${CMAKE_CURRENT_BINARY_DIR}/spirally-traversing-a-matrix")
+ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/sorting-elements-of-an-array-by-frequency "${CMAKE_CURRENT_BINARY_DIR}/sorting-elements-of-an-array-by-frequency")
+ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/sorted-subsequence-of-size-3 "${CMAKE_CURRENT_BINARY_DIR}/sorted-subsequence-of-size-3")
+ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/lowest-common-ancestor-in-a-binary-tree "${CMAKE_CURRENT_BINARY_DIR}/lowest-common-ancestor-in-a-binary-tree")

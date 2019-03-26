@@ -12,3 +12,7 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/minimum-cost-to-hire-k-workers "${C
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/two-sum "${CMAKE_CURRENT_BINARY_DIR}/two-sum")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/3sum "${CMAKE_CURRENT_BINARY_DIR}/3sum")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/add-two-numbers "${CMAKE_CURRENT_BINARY_DIR}/add-two-numbers")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/two-sum-ii-input-array-is-sorted "${CMAKE_CURRENT_BINARY_DIR}/two-sum-ii-input-array-is-sorted")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/two-sum-iv-input-is-a-bst "${CMAKE_CURRENT_BINARY_DIR}/two-sum-iv-input-is-a-bst")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/subarray-sum-equals-k "${CMAKE_CURRENT_BINARY_DIR}/subarray-sum-equals-k")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/continuous-subarray-sum "${CMAKE_CURRENT_BINARY_DIR}/continuous-subarray-sum")

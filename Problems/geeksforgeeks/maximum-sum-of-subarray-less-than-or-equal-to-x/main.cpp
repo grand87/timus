@@ -8,7 +8,7 @@ int arr[10000] = {0};
 
 int maxSumLessThanK(int arr[], int n, int k)
 {
-    //now the task is to find the longest sub array with sum 0
+    //now the task is to find the longest sub array with sum k
     int sum = 0;
     int len = 0;
     int start = 0;

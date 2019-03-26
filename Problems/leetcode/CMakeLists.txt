@@ -8,3 +8,7 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/median-of-two-sorted-arrays "${CMAK
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/count-primes "${CMAKE_CURRENT_BINARY_DIR}/count-primes")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/ugly-number "${CMAKE_CURRENT_BINARY_DIR}/ugly-number")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/prime-number-of-set-bits-in-binary-representation "${CMAKE_CURRENT_BINARY_DIR}/prime-number-of-set-bits-in-binary-representation")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/minimum-cost-to-hire-k-workers "${CMAKE_CURRENT_BINARY_DIR}/minimum-cost-to-hire-k-workers")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/two-sum "${CMAKE_CURRENT_BINARY_DIR}/two-sum")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/3sum "${CMAKE_CURRENT_BINARY_DIR}/3sum")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/add-two-numbers "${CMAKE_CURRENT_BINARY_DIR}/add-two-numbers")

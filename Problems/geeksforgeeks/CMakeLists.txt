@@ -63,3 +63,4 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/max-sum-subarray-of-size-k "${CMAKE
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/largest-subarray-of-0s-and-1s "${CMAKE_CURRENT_BINARY_DIR}/largest-subarray-of-0s-and-1s")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/maximum-sum-of-subarray-less-than-or-equal-to-x "${CMAKE_CURRENT_BINARY_DIR}/maximum-sum-of-subarray-less-than-or-equal-to-x")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/sort-first-half-in-ascending-and-second-half-in-descending "${CMAKE_CURRENT_BINARY_DIR}/sort-first-half-in-ascending-and-second-half-in-descending")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/maximum-product-subarray "${CMAKE_CURRENT_BINARY_DIR}/maximum-product-subarray")

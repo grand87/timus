@@ -16,3 +16,4 @@ ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/spirally-traversing-a-matrix "${CMAKE_CUR
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/sorting-elements-of-an-array-by-frequency "${CMAKE_CURRENT_BINARY_DIR}/sorting-elements-of-an-array-by-frequency")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/sorted-subsequence-of-size-3 "${CMAKE_CURRENT_BINARY_DIR}/sorted-subsequence-of-size-3")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/lowest-common-ancestor-in-a-binary-tree "${CMAKE_CURRENT_BINARY_DIR}/lowest-common-ancestor-in-a-binary-tree")
+ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/finding-middle-element-in-a-linked-list "${CMAKE_CURRENT_BINARY_DIR}/finding-middle-element-in-a-linked-list")

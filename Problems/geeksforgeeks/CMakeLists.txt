@@ -66,3 +66,7 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/sort-first-half-in-ascending-and-se
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/maximum-product-subarray "${CMAKE_CURRENT_BINARY_DIR}/maximum-product-subarray")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/display-longest-name "${CMAKE_CURRENT_BINARY_DIR}/display-longest-name")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/array-of-alternate-ve-and-ve-nos "${CMAKE_CURRENT_BINARY_DIR}/array-of-alternate-ve-and-ve-nos")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/move-all-zeroes-to-end-of-array "${CMAKE_CURRENT_BINARY_DIR}/move-all-zeroes-to-end-of-array")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/transpose-of-matrix "${CMAKE_CURRENT_BINARY_DIR}/transpose-of-matrix")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/print-matrix-in-snake-pattern "${CMAKE_CURRENT_BINARY_DIR}/print-matrix-in-snake-pattern")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/row-with-minimum-number-of-1s "${CMAKE_CURRENT_BINARY_DIR}/row-with-minimum-number-of-1s")

@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8)
 
-set(PROJECT_NAME median-of-two-sorted-arrays)
+set(PROJECT_NAME check-if-the-number-is-fibonacci)
 
 project (${PROJECT_NAME})
 

@@ -17,3 +17,6 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/two-sum-iv-input-is-a-bst "${CMAKE_
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/subarray-sum-equals-k "${CMAKE_CURRENT_BINARY_DIR}/subarray-sum-equals-k")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/continuous-subarray-sum "${CMAKE_CURRENT_BINARY_DIR}/continuous-subarray-sum")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/median-of-two-sorted-arrays "${CMAKE_CURRENT_BINARY_DIR}/median-of-two-sorted-arrays")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/longest-increasing-subsequence "${CMAKE_CURRENT_BINARY_DIR}/longest-increasing-subsequence")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/number-of-longest-increasing-subsequence "${CMAKE_CURRENT_BINARY_DIR}/number-of-longest-increasing-subsequence")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/longest-continuous-increasing-subsequence "${CMAKE_CURRENT_BINARY_DIR}/longest-continuous-increasing-subsequence")

@@ -31,6 +31,7 @@ int main() {
 
         for (int j = 0; j < n; j++) {
             lis[j] = 1;
+            counts[j] = 0;
             sum[j] = buf[j];
         }
 

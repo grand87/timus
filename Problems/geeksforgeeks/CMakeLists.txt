@@ -81,3 +81,4 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/maximum-sum-increasing-subsequence 
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/maximum-product-of-two-numbers "${CMAKE_CURRENT_BINARY_DIR}/maximum-product-of-two-numbers")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/fascinating-number "${CMAKE_CURRENT_BINARY_DIR}/fascinating-number")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/check-if-the-number-is-fibonacci "${CMAKE_CURRENT_BINARY_DIR}/check-if-the-number-is-fibonacci")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/count-numbers-containing-4 "${CMAKE_CURRENT_BINARY_DIR}/count-numbers-containing-4")

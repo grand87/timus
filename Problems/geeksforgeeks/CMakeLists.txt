@@ -95,3 +95,4 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/maximum-of-all-subarrays-of-size-k 
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/count-triplets-with-sum-smaller-than-x "${CMAKE_CURRENT_BINARY_DIR}/count-triplets-with-sum-smaller-than-x")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/stickler-theif "${CMAKE_CURRENT_BINARY_DIR}/stickler-theif")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/max-sum-path-in-two-arrays "${CMAKE_CURRENT_BINARY_DIR}/max-sum-path-in-two-arrays")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/longest-bitonic-subsequence "${CMAKE_CURRENT_BINARY_DIR}/longest-bitonic-subsequence")

@@ -17,3 +17,8 @@ ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/sorting-elements-of-an-array-by-frequency
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/sorted-subsequence-of-size-3 "${CMAKE_CURRENT_BINARY_DIR}/sorted-subsequence-of-size-3")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/lowest-common-ancestor-in-a-binary-tree "${CMAKE_CURRENT_BINARY_DIR}/lowest-common-ancestor-in-a-binary-tree")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/finding-middle-element-in-a-linked-list "${CMAKE_CURRENT_BINARY_DIR}/finding-middle-element-in-a-linked-list")
+ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/find-missing-and-repeating "${CMAKE_CURRENT_BINARY_DIR}/find-missing-and-repeating")
+ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/stock-buy-and-sell "${CMAKE_CURRENT_BINARY_DIR}/stock-buy-and-sell")
+ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/detect-loop-in-linked-list "${CMAKE_CURRENT_BINARY_DIR}/detect-loop-in-linked-list")
+ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/remove-loop-in-linked-list "${CMAKE_CURRENT_BINARY_DIR}/remove-loop-in-linked-list")
+ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/sort-a-stack "${CMAKE_CURRENT_BINARY_DIR}/sort-a-stack")

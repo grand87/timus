@@ -6,60 +6,60 @@
 using namespace std;
 
 class Solution {
-
-    int _atoi(const char* str, int size, bool &isOverflow) {
-        int res = 0;
-        for (int i = 0; i < size; i++) {
-            if (str[i] >= '0' && str[i] <= '9') {
-                if (res > INT_MAX / 10) {
-                    isOverflow = true;
-                    return INT_MAX;
-                }
-                res = res * 10;
-                int digit = str[i] - '0';
-
-                //cout << res << " " << digit << " " << max << endl;
-                if (res <= INT_MAX - digit)
-                    res += digit;
-                else {
-                    isOverflow = true;
-                    return INT_MAX;
-                }
+    void transpose(vector<vector<int>>& matrix) {
+        const int n = matrix.size();
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                swap(matrix[i][j], matrix[j][i]);
             }
-            else
-                break;
         }
-        return res;
+    }
+
+    void reverseRows(vector<vector<int>>& matrix) {
+        const int n = matrix.size();
+        for (int i = 0; i < n / 2; i++) {
+            swap(matrix[i], matrix[n - 1 - i]);
+        }
+    }
+
+    void reverseColumns(vector<vector<int>>& matrix) {
+        const int n = matrix.size();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n / 2; j++) {
+                swap(matrix[i][j], matrix[i][n - 1 - j]);
+            }
+        }
     }
 
 public:
-    int myAtoi(string str) {
-        //discard white spaces
-        int pos = 0;
-        while (str[pos] == ' ')
-            pos++;
+    void rotate(vector<vector<int>>& matrix) {
+        //transpose matrix
+        transpose(matrix);
 
-        if (pos == str.length())
-            return 0;
-
-        int res = 0;
-        bool flag = false;
-        if (str[pos] == '-') {
-            res = _atoi(str.c_str() + 1 + pos, str.length() - 1, flag);
-            if (res == INT_MAX && flag)
-                return INT_MIN;
-            else
-                return -res;
-        }
-        else {
-            if (str[pos] == '+')
-                pos++;
-
-            res = _atoi(str.c_str() + pos, str.length(), flag);
-            return res;
-        }
+        //reverse rows
+        reverseColumns(matrix);
     }
 };
+
+void readMatrix(vector<vector<int>> &matrix, int n) {
+    matrix.resize(n);
+    for (int i = 0; i < n; i++) {
+        matrix[i].resize(n);
+        for (int j = 0; j < n; j++) {
+            cin >> matrix[i][j];
+        }
+    }
+}
+
+void dumpMatrix(vector<vector<int>> &matrix) {
+    const int n = matrix.size();
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cout << matrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+}
 
 int main()
 {
@@ -71,10 +71,13 @@ int main()
    cin >> t;
    for (int i = 0; i < t; i++) {
 
-       char buf[256];
-       cin >> buf;
+       vector<vector<int>> matrix;
+       int n;
+       cin >> n;
+       readMatrix(matrix, n);
 
        Solution s;
-       cout << s.myAtoi(buf) << endl;
+       s.rotate(matrix);
+       dumpMatrix(matrix);
    }
 }

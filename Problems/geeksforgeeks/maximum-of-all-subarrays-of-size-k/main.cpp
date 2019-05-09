@@ -19,22 +19,29 @@ int buf[10000000];
 
 class SlidingWindow {
     deque<int> data;
-    int localMax;
     int window;
+    int localMax;
 public:
-    SlidingWindow(int size) : localMax{ -1 }, window(size) {
-   
+    SlidingWindow(int size) : window(size) {
+        localMax = -1;
     }
 
     void put(int val) {
         data.push_back(val);
-        if (data.size() > window)
+        if (val > localMax)
+            localMax = val;
+        if (data.size() > window) {
+            int front = data.front();
             data.pop_front();
+            if (front == localMax) {
+                //removed old max - need to locate new max
+                localMax = *max_element(data.begin(), data.end());
+            }
+        }
     }
 
-    int getLocalMax() {
-        make_heap(data.begin(), data.end());
-        return data.front();
+    int getLocalMax() const {
+        return localMax;
     }
 };
 
@@ -57,6 +64,7 @@ int main() {
             w.put(buf[j]);
             cout << w.getLocalMax() << " ";
         }
+
         cout << endl;
     }
     return 0;

@@ -22,3 +22,4 @@ ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/stock-buy-and-sell "${CMAKE_CURRENT_BINAR
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/detect-loop-in-linked-list "${CMAKE_CURRENT_BINARY_DIR}/detect-loop-in-linked-list")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/remove-loop-in-linked-list "${CMAKE_CURRENT_BINARY_DIR}/remove-loop-in-linked-list")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/sort-a-stack "${CMAKE_CURRENT_BINARY_DIR}/sort-a-stack")
+ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/min-distance-between-two-given-nodes-of-a-binary-tree "${CMAKE_CURRENT_BINARY_DIR}/min-distance-between-two-given-nodes-of-a-binary-tree")

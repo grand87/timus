@@ -5,6 +5,8 @@ add_definitions(-DLOCAL_TEST)
 
 project (AlgoPractice)
 
+include_directories(${PROJECT_SOURCE_DIR}/../utils)
+
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/../Problems/Timus "${CMAKE_CURRENT_BINARY_DIR}/Timus")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/../Problems/Different "${CMAKE_CURRENT_BINARY_DIR}/Different")
 ADD_SUBDIRECTORY(${PROJECT_SOURCE_DIR}/../Problems/HackerRank "${CMAKE_CURRENT_BINARY_DIR}/HackerRank")

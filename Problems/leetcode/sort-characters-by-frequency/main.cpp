@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <stack>
 #include <vector>
 #include <algorithm>
@@ -9,48 +10,31 @@
 using namespace std;
 
 class Solution {
-
-    struct element {
-        element() {
-            value = numeric_limits<int>::min();
-            hasValue = false;
-        }
-        int value;
-        bool hasValue;
-    };
-
 public:
-    int thirdMax(vector<int>& nums) {
-        int maxElementsCount = 0;
-        element maxElements[3];
+    string frequencySort(string s) {
+        unordered_map<char, int> charFreq;
+        int maxCharID = 0;
+        for (char c : s) {
+            charFreq[c]++;
+        }
 
-        for (int v : nums) {
-            if (v >= maxElements[0].value) {
-                if (v > maxElements[0].value || !maxElements[0].hasValue) {
-                    maxElements[2] = maxElements[1];
-                    maxElements[1] = maxElements[0];
-                    maxElements[0].value = v;
-                    maxElements[0].hasValue = true;
-                    maxElementsCount++;
-                }
-            } else if (v >= maxElements[1].value) {
-                if (v > maxElements[1].value || !maxElements[1].hasValue) {
-                    maxElements[2] = maxElements[1];
-                    maxElements[1].value = v;
-                    maxElements[1].hasValue = true;
-                    maxElementsCount++;
-                }
-            } else if (v >= maxElements[2].value) {
-                if (v > maxElements[2].value || !maxElements[2].hasValue) {
-                    maxElements[2].value = v;
-                    maxElements[2].hasValue = true;
-                    maxElementsCount++;
+        vector<vector<char>> freqs(s.size() + 1);
+        int maxFreq = 0;
+        for (auto rec : charFreq) {
+            freqs[rec.second].push_back(rec.first);
+            maxFreq = max(maxFreq, rec.second);
+        }
+
+        string res;
+        for (int i = maxFreq; i >= 0; i--) {
+            for (int c = 0; c < freqs[i].size(); c++) {
+                for (int r = 0; r < i; r++) {
+                    res.append(&freqs[i][c], 1);
                 }
             }
         }
-        if (maxElementsCount < 3)
-            return maxElements[0].value;
-        return maxElements[2].value;
+
+        return res;
     }
 };
 
@@ -63,12 +47,9 @@ int main()
     int t = 0;
     cin >> t;
     for (int i = 0; i < t; i++) {
-        int n;
-        cin >> n;
-        vector<int> vec(n);
-        readVector<int>(cin, vec, n);
-
+        char buf[1024];
+        cin >> buf;
         Solution s;
-        cout << s.thirdMax(vec) << endl;
+        cout << s.frequencySort(string(buf)).c_str() << endl;
     }
 }

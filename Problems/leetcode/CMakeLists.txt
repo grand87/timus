@@ -83,3 +83,4 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/merge-two-sorted-lists "${CMAKE_CUR
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/merge-sorted-array "${CMAKE_CURRENT_BINARY_DIR}/merge-sorted-array")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/squares-of-a-sorted-array "${CMAKE_CURRENT_BINARY_DIR}/squares-of-a-sorted-array")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/valid-sudoku "${CMAKE_CURRENT_BINARY_DIR}/valid-sudoku")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/merge-k-sorted-lists "${CMAKE_CURRENT_BINARY_DIR}/merge-k-sorted-lists")

@@ -2,7 +2,9 @@
 #define __PROBLEMS_UTILS_H__
 
 #include <vector>
+#include <string>
 #include <iostream>
+#include <unordered_map>
 
 template<typename T>
 void readVector(std::istream& is, std::vector<T>& vec, int count) {
@@ -11,10 +13,19 @@ void readVector(std::istream& is, std::vector<T>& vec, int count) {
     }
 };
 
+template<>
+void readVector<std::string>(std::istream& is, std::vector<std::string>& vec, int count) {
+    char buf[255];
+    for (int i = 0; i < count; i++) {
+        is >> buf;
+        vec[i] = buf;
+    }
+};
+
 template<typename T>
 void printVector(std::ostream& is, const std::vector<T>& vec, char seperator = ' ') {
     for (std::vector<T>::size_type i = 0; i < vec.size(); i++) {
-        cout <<vec [i] << seperator;
+        cout << vec[i] << seperator;
     }
 };
 
@@ -50,6 +61,38 @@ void printList(std::ostream& is, const Node<T>* head) {
         cout << head->val << " ";
         head = head->next;
     }
+}
+
+template<typename T>
+struct BinaryTreeNode {
+    T val;
+    BinaryTreeNode<T> *left;
+    BinaryTreeNode<T> *right;
+    BinaryTreeNode(T x) : val(x), left(NULL), right(NULL) {}
+};
+
+template <typename T>
+BinaryTreeNode<T>* readTree(int count, T rootValue) {
+    unordered_map<int, BinaryTreeNode<T>*> tree;
+
+    //create root
+    tree[rootValue] = new BinaryTreeNode<T>(rootValue);
+
+    for (int i = 0; i < count - 1; i++) {
+        int parent;
+        char pos;
+        T val;
+
+        cin >> parent >> pos >> val;
+        tree[val] = new BinaryTreeNode<T>(val);
+
+        if (pos == 'L')
+            tree[parent]->left = tree[val];
+        else
+            tree[parent]->right = tree[val];
+    }
+
+    return tree[rootValue];
 }
 
 #endif /*__PROBLEMS_UTILS_H__*/

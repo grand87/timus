@@ -5,41 +5,40 @@
 #include <algorithm>
 #include <unordered_map>
 #include <functional>
+#include <utils.h>
 
 using namespace std;
 
-bool cmp(const pair<int, int> &a, const pair<int, int> &b) {
-    return a.second > b.second;
-}
-
 class Solution {
 public:
-    vector<int> topKFrequent(vector<int>& nums, int k) {
-        unordered_map<int, int> freqMap;
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        unordered_map<string, int > wordsFreq;
+
+        for (auto w : words) {
+            wordsFreq[w]++;
+        }
+
+        vector<vector<string>> buckets(words.size() + 1);
 
         int maxFreq = 0;
-
-        for (int val : nums) {
-            freqMap[val]++;
-            maxFreq = max(maxFreq, freqMap[val]);
+        for (auto wf : wordsFreq) {
+            buckets[wf.second].push_back(wf.first);
+            maxFreq = max(maxFreq, wf.second);
         }
 
-        vector<vector<int>> freqInOrder(maxFreq + 1);
-        for (auto rec : freqMap) {
-            freqInOrder[rec.second].push_back(rec.first);
-        }
+        vector<string> result;
 
-        vector<int> res;
-
-        for (auto i = freqInOrder.rbegin(); i != freqInOrder.rend(); i++) {
-            for (auto el : *i) {
-                res.push_back(el);
-                if (res.size() == k)
-                    return res;
+        int count = 0;
+        for (vector<vector<string>>::reverse_iterator it = buckets.rbegin(); it != buckets.rend(); it++) {
+            if (it->size() > 0)
+                sort(it->begin(), it->end());
+            for (string w : *it) {
+                result.push_back(w);
+                if (result.size() == k)
+                    return result;
             }
         }
-        
-        return res;
+        return result;
     }
 };
 
@@ -55,16 +54,13 @@ int main()
 
         int vals, k;
         cin >> vals >> k;
-        vector<int> values(vals);
-
-        for (int j = 0; j < vals; j++)
-            cin >> values[j];
+        vector<string> values(vals);
+        readVector<string>(cin, values, vals);
 
         Solution s;
-        vector<int> res = s.topKFrequent(values, k);
-     
-        for (int val : res)
-            cout << val << " ";
+        values = s.topKFrequent(values, k);
+        printVector<string>(cout, values);
+
         cout << endl;
     }
 }

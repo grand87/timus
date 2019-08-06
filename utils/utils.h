@@ -24,8 +24,8 @@ void readVector<std::string>(std::istream& is, std::vector<std::string>& vec, in
 
 template<typename T>
 void printVector(std::ostream& is, const std::vector<T>& vec, char seperator = ' ') {
-    for (std::vector<T>::size_type i = 0; i < vec.size(); i++) {
-        cout << vec[i] << seperator;
+    for (typename std::vector<T>::size_type i = 0; i < vec.size(); i++) {
+        cout << vec [i] << seperator;
     }
 };
 

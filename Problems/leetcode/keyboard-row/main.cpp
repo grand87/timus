@@ -62,8 +62,9 @@ public:
 
 int main()
 {
-#ifndef ONLINE_JUDGE
-   freopen("input.txt", "rt", stdin);
+#ifdef LOCAL_TEST
+    std::ifstream in("input.txt");
+    cin.set_rdbuf(in.rdbuf());
 #endif
 
     int t = 0;

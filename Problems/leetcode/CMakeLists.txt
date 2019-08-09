@@ -101,3 +101,5 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/find-median-from-data-stream "${CMA
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/serialize-and-deserialize-binary-tree "${CMAKE_CURRENT_BINARY_DIR}/serialize-and-deserialize-binary-tree")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/swap-nodes-in-pairs "${CMAKE_CURRENT_BINARY_DIR}/swap-nodes-in-pairs")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/reverse-nodes-in-k-group "${CMAKE_CURRENT_BINARY_DIR}/reverse-nodes-in-k-group")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/count-of-smaller-numbers-after-self "${CMAKE_CURRENT_BINARY_DIR}/count-of-smaller-numbers-after-self")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/last-stone-weight "${CMAKE_CURRENT_BINARY_DIR}/last-stone-weight")

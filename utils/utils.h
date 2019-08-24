@@ -95,4 +95,32 @@ BinaryTreeNode<T>* readTree(int count, T rootValue) {
     return tree[rootValue];
 }
 
+//TODO: rewrite based on readVector
+template <typename T>
+void readMatrix(int x, int y, std::vector<std::vector<T>> &matrix) {
+    matrix.resize(y);
+    for (int r = 0; r < y; r++) {
+        matrix[r].resize(x);
+        for (int c = 0; c < x; c++) {
+            cin >> matrix[r][c];
+        }
+    }
+}
+
+//TODO: rewrite based on printVector
+template <typename T>
+void printMatrix(int x, int y, std::vector<std::vector<T>> &matrix) {
+    for (int r = 0; r < y; r++) {
+        for (int c = 0; c < x; c++) {
+            cout << matrix[r][c] << " ";
+        }
+        cout << endl;
+    }
+}
+
+//template<typename T, int size>
+//int getArrayLength(T(&)[size]) {
+//    return size;
+//}
+
 #endif /*__PROBLEMS_UTILS_H__*/

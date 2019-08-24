@@ -110,3 +110,4 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/maximum-in-struct-array "${CMAKE_CU
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/check-if-tree-is-isomorphic "${CMAKE_CURRENT_BINARY_DIR}/check-if-tree-is-isomorphic")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/root-to-leaf-paths "${CMAKE_CURRENT_BINARY_DIR}/root-to-leaf-paths")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/count-possible-triangles "${CMAKE_CURRENT_BINARY_DIR}/count-possible-triangles")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/find-the-number-of-islands "${CMAKE_CURRENT_BINARY_DIR}/find-the-number-of-islands")

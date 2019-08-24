@@ -111,3 +111,7 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/check-if-tree-is-isomorphic "${CMAK
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/root-to-leaf-paths "${CMAKE_CURRENT_BINARY_DIR}/root-to-leaf-paths")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/count-possible-triangles "${CMAKE_CURRENT_BINARY_DIR}/count-possible-triangles")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/find-the-number-of-islands "${CMAKE_CURRENT_BINARY_DIR}/find-the-number-of-islands")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/final-destination "${CMAKE_CURRENT_BINARY_DIR}/final-destination")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/topological-sort-1 "${CMAKE_CURRENT_BINARY_DIR}/topological-sort-1")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/depth-first-traversal-for-a-graph "${CMAKE_CURRENT_BINARY_DIR}/depth-first-traversal-for-a-graph")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/flood-fill-algorithm "${CMAKE_CURRENT_BINARY_DIR}/flood-fill-algorithm")

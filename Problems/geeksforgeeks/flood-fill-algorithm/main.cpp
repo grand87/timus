@@ -1,24 +1,59 @@
-#include <utils.h>
-#include <array>
 #include <fstream>
 #include <iostream>
+#include <queue>
 #include <unordered_map>
 
 using namespace std;
 
-/*This is a function problem.You only need to complete the function given below*/
-/* Function to do DFS of graph
- *  g[]: array of vectors to represent graph
- *  vis[]: array to keep track of visited vertex
- */
-void dfs(int s, vector<int> g[], bool vis[]) {
-    cout << s << " ";
-    vis[s] = true;
-    for (int i = 0; i < g[s].size(); i++) {
-        if (vis[g[s][i]] == false)
-            dfs(g[s][i], g, vis);
+template <typename T>
+void readMatrix(int x, int y, std::vector<std::vector<T>>& matrix) {
+    matrix.resize(y);
+    for (int r = 0; r < y; r++) {
+        matrix[r].resize(x);
+        for (int c = 0; c < x; c++) {
+            cin >> matrix[r][c];
+        }
     }
+}
 
+// TODO: rewrite based on printVector
+template <typename T>
+void printMatrix(int x, int y, std::vector<std::vector<T>>& matrix) {
+    for (int r = 0; r < y; r++) {
+        for (int c = 0; c < x; c++) {
+            cout << matrix[r][c] << " ";
+        }
+    }
+}
+
+const int pos[] = {0, 1, 0, -1, 0};
+const int posCount = 4;
+
+inline int isValid(int sizeX, int sizeY, int x, int y, const vector<vector<int>>& matrix, int color) {
+    return x >= 0 && x < sizeX && y >= 0 && y < sizeY && matrix[y][x] == color;
+}
+
+void floodFill(int sizeX, int sizeY, vector<vector<int>>& matrix, int x, int y, int color) {
+    typedef pair<int, int> point;
+    queue<point> verts;
+
+    verts.push(make_pair(x, y));
+    
+    const int lookUpColor = matrix[y][x];
+
+    while (!verts.empty()) {
+        const point p = verts.front();
+        verts.pop();
+        matrix[p.second][p.first] = color;
+
+        for (int i = 0; i < posCount; i++) {
+            const int npx = p.first + pos[i];
+            const int npy = p.second + pos[i + 1];
+
+            if (isValid(sizeX, sizeY, npx, npy, matrix, lookUpColor))
+                verts.push(make_pair(npx, npy));
+        }
+    }
 }
 
 // Position this line where user code will be pasted.
@@ -30,25 +65,22 @@ int main() {
     int T;
     cin >> T;
     while (T--) {
-        int N, E;
-        cin >> N >> E;
+        int x, y;
+        cin >> y >> x;
+        vector<vector<int>> matrix;
+        readMatrix(x, y, matrix);
 
-        vector<int>* g = new vector<int>[N];
-        bool* vis = new bool[N];
+        int px, py, color;
+        cin >> px >> py >> color;
+#ifdef LOCAL_TEST
+        printMatrix(x, y, matrix);
+        cout << endl;
+#endif
+        floodFill(x, y, matrix, py, px, color);
 
-        memset(vis, false, sizeof(bool) * N);
-
-        for (int i = 0; i < E; i++) {
-            int u, v;
-            cin >> u >> v;
-            g[u].push_back(v);
-            g[v].push_back(u);
-        }
-        dfs(0, g, vis);
-
-        delete[] g;
-        delete[] vis;
-
+        printMatrix(x, y, matrix);
         cout << endl;
     }
+
+    return 0;
 }

@@ -115,3 +115,5 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/final-destination "${CMAKE_CURRENT_
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/topological-sort-1 "${CMAKE_CURRENT_BINARY_DIR}/topological-sort-1")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/depth-first-traversal-for-a-graph "${CMAKE_CURRENT_BINARY_DIR}/depth-first-traversal-for-a-graph")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/flood-fill-algorithm "${CMAKE_CURRENT_BINARY_DIR}/flood-fill-algorithm")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/detect-cycle-in-a-directed-graph "${CMAKE_CURRENT_BINARY_DIR}/detect-cycle-in-a-directed-graph")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/detect-cycle-in-an-undirected-graph "${CMAKE_CURRENT_BINARY_DIR}/detect-cycle-in-an-undirected-graph")

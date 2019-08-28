@@ -121,3 +121,5 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/bipartite-graph "${CMAKE_CURRENT_BI
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/implementing-dijkstra-set-1-adjacency-matrix "${CMAKE_CURRENT_BINARY_DIR}/implementing-dijkstra-set-1-adjacency-matrix")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/strongly-connected-components-kosarajus-algo "${CMAKE_CURRENT_BINARY_DIR}/strongly-connected-components-kosarajus-algo")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/shortest-source-to-destination-path "${CMAKE_CURRENT_BINARY_DIR}/shortest-source-to-destination-path")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/length-of-largest-region-of-1s "${CMAKE_CURRENT_BINARY_DIR}/length-of-largest-region-of-1s")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/length-of-largest-region-of-1s-1 "${CMAKE_CURRENT_BINARY_DIR}/length-of-largest-region-of-1s-1")

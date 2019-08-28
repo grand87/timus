@@ -118,3 +118,6 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/flood-fill-algorithm "${CMAKE_CURRE
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/detect-cycle-in-a-directed-graph "${CMAKE_CURRENT_BINARY_DIR}/detect-cycle-in-a-directed-graph")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/detect-cycle-in-an-undirected-graph "${CMAKE_CURRENT_BINARY_DIR}/detect-cycle-in-an-undirected-graph")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/bipartite-graph "${CMAKE_CURRENT_BINARY_DIR}/bipartite-graph")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/implementing-dijkstra-set-1-adjacency-matrix "${CMAKE_CURRENT_BINARY_DIR}/implementing-dijkstra-set-1-adjacency-matrix")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/strongly-connected-components-kosarajus-algo "${CMAKE_CURRENT_BINARY_DIR}/strongly-connected-components-kosarajus-algo")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/shortest-source-to-destination-path "${CMAKE_CURRENT_BINARY_DIR}/shortest-source-to-destination-path")

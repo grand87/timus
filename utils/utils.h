@@ -5,6 +5,7 @@
 #include <string>
 #include <iostream>
 #include <unordered_map>
+#include <iomanip>
 
 template<typename T>
 void readVector(std::istream& is, std::vector<T>& vec, int count) {
@@ -109,10 +110,10 @@ void readMatrix(int x, int y, std::vector<std::vector<T>> &matrix) {
 
 //TODO: rewrite based on printVector
 template <typename T>
-void printMatrix(int x, int y, std::vector<std::vector<T>> &matrix) {
+void printMatrix(int x, int y, std::vector<std::vector<T>> &matrix, int spacing = 5) {
     for (int r = 0; r < y; r++) {
         for (int c = 0; c < x; c++) {
-            cout << matrix[r][c] << " ";
+            cout << setw(spacing) << matrix[r][c] << " ";
         }
         cout << endl;
     }

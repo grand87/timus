@@ -123,3 +123,5 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/strongly-connected-components-kosar
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/shortest-source-to-destination-path "${CMAKE_CURRENT_BINARY_DIR}/shortest-source-to-destination-path")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/length-of-largest-region-of-1s "${CMAKE_CURRENT_BINARY_DIR}/length-of-largest-region-of-1s")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/length-of-largest-region-of-1s-1 "${CMAKE_CURRENT_BINARY_DIR}/length-of-largest-region-of-1s-1")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/find-whether-path-exist "${CMAKE_CURRENT_BINARY_DIR}/find-whether-path-exist")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/minimum-cost-path "${CMAKE_CURRENT_BINARY_DIR}/minimum-cost-path")

@@ -13,73 +13,95 @@ vector<string> split_string(string);
  * Complete the bricksGame function below.
  */
 
-vector<long> vals[2];
-vector<long> sums;
-int arrSize = 0;
+//vector<long> vals[2];
+//vector<long> sums;
+//int arrSize = 0;
 
-int bricksGameHelp(int* a, int pos, int count, bool secondGamer) {
-    if (count == 0)
-        return 0;
 
-#ifdef LOCAL_TEST
-    cout << "look for gamer " << secondGamer << " start from pos " << pos << endl;
-#endif
+//int bricksGameHelp(int* a, int pos, int count, bool secondGamer) {
+//    if (count == 0)
+//        return 0;
+//
+//    if (vals[secondGamer][pos] > 0)
+//        return vals[secondGamer][pos];
+//
+//    int totalInRange = sums[arrSize - 1];
+//
+//    if (count > 0) {
+//        long strategy1 = a[pos];
+//        if (count - 1 > 0) {
+//            strategy1 += totalInRange - bricksGameHelp(a, pos + 1, count - 1, !secondGamer) - sums[pos];
+//        }
+//        vals[secondGamer][pos] = max(vals[secondGamer][pos], strategy1);
+//    }
+//
+//    if (count > 1) {
+//        long strategy2 = a[pos] + a[pos + 1];
+//        if (count > 2) {
+//            strategy2 += totalInRange - bricksGameHelp(a, pos + 2, count - 2, !secondGamer) - sums[pos + 1];
+//        }
+//        vals[secondGamer][pos] = max(vals[secondGamer][pos], strategy2);
+//    }
+//
+//    if (count > 2) {
+//        long strategy3 = a[pos] + a[pos + 1] + a[pos + 2];
+//        if (count > 3) {
+//            strategy3 += totalInRange - bricksGameHelp(a, pos + 3, count - 3, !secondGamer) - sums[pos + 2];
+//        }
+//        vals[secondGamer][pos] = max(vals[secondGamer][pos], strategy3);
+//    }
+//#ifdef LOCAL_TEST
+//    cout << "gamer " << secondGamer << " start from pos " << pos << " gains " << vals[secondGamer][pos] << endl;
+//#endif
+//    return vals[secondGamer][pos];
+//}
 
-    if (vals[secondGamer][pos] > 0)
-        return vals[secondGamer][pos];
-
-    int totalInRange = sums[arrSize - 1];
-
-    if (count > 0) {
-        long strategy1 = a[pos];
-        if (count - 1 > 0) {
-            strategy1 += totalInRange - bricksGameHelp(a, pos + 1, count - 1, !secondGamer) - sums[pos];
-        }
-        vals[secondGamer][pos] = max(vals[secondGamer][pos], strategy1);
+unsigned long long bricksGame(vector<int> arr) {
+    vector<unsigned long long> sums;
+    sums.resize(arr.size());
+    
+    const int size = arr.size(); 
+    
+    sums[size - 1] = arr[size - 1];
+    for (int i = size - 2;i >= 0; i--) {
+        sums[i] = sums[i + 1] + arr[i];
     }
 
-    if (count > 1) {
-        long strategy2 = a[pos] + a[pos + 1];
-        if (count > 2) {
-            strategy2 += totalInRange - bricksGameHelp(a, pos + 2, count - 2, !secondGamer) - sums[pos + 1];
-        }
-        vals[secondGamer][pos] = max(vals[secondGamer][pos], strategy2);
-    }
-
-    if (count > 2) {
-        long strategy3 = a[pos] + a[pos + 1] + a[pos + 2];
-        if (count > 3) {
-            strategy3 += totalInRange - bricksGameHelp(a, pos + 3, count - 3, !secondGamer) - sums[pos + 2];
-        }
-        vals[secondGamer][pos] = max(vals[secondGamer][pos], strategy3);
-    }
-#ifdef LOCAL_TEST
-    cout << "gamer " << secondGamer << " start from pos " << pos << " gains " << vals[secondGamer][pos] << endl;
-#endif
-    return vals[secondGamer][pos];
-}
-
-int bricksGame(vector<int> arr) {
-    /*
-     * Write your code here.
-     */
+    vector<unsigned long long> vals[2];
     vals[0].resize(arr.size());
     vals[1].resize(arr.size());
+    
 
-    fill(vals[0].begin(), vals[0].end(), -1);
-    fill(vals[1].begin(), vals[1].end(), -1);
+    vals[0][size - 1] = arr[size - 1];
+    vals[0][size - 2] = vals[0][size - 1] + arr[size - 2];
+    vals[0][size - 3] = vals[0][size - 2] + arr[size - 3];
 
-    arrSize = arr.size();
+    vals[1][size - 1] = arr[size - 1];
+    vals[1][size - 2] = vals[1][size - 1] + arr[size - 2];
+    vals[1][size - 3] = vals[1][size - 2] + arr[size - 3];
 
-    sums.resize(arr.size());
-    sums[0] = arr[0];
-    for (int i = 1; i < arr.size(); i++) {
-        sums[i] = sums[i - 1] + arr[i];
+
+    for (int pos = size - 4; pos >= 0; pos--) {
+        for (int gamer = 0; gamer < 2; gamer++) {
+            // for all 3 combinations we search for local optimum which is current pos + remaining range sum - the best move of second player
+            unsigned long long chank = arr[pos];
+            unsigned long long strategy1 = chank + sums[pos + 1] - vals[!gamer][pos + 1];
+
+            chank += arr[pos + 1];
+            unsigned long long strategy2 = chank + sums[pos + 2] - vals[!gamer][pos + 2];
+
+            chank += arr[pos + 2];
+            unsigned long long strategy3 = chank + sums[pos + 3] - vals[!gamer][pos + 3];
+
+            vals[gamer][pos] = max(strategy1, max(strategy2, strategy3));
+
+            //#ifdef LOCAL_TEST
+            //    cout << "gamer " << gamer << " start from pos " << pos << " gains " << vals[gamer][pos] << endl;
+            //#endif
+        }
     }
 
-    const int val = bricksGameHelp(&arr[0], 0, arr.size(), false);
-
-    return val;
+    return vals[0][0];
 }
 
 int main()
@@ -113,7 +135,7 @@ int main()
             arr[arr_itr] = arr_item;
         }
 
-        int result = bricksGame(arr);
+        unsigned long long result = bricksGame(arr);
 
         fout << result << "\n";
     }

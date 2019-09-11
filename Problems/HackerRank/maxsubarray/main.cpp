@@ -11,7 +11,22 @@ vector<string> split_string(string);
 // Complete the maxSubarray function below.
 vector<int> maxSubarray(vector<int> arr) {
 
+    int globalMaxSubArray = arr[0];
+    int currentMax = globalMaxSubArray;
 
+    int gloablMaxSequence = arr[0];
+    int currentMaxSequence = gloablMaxSequence;
+
+    for (int i = 1; i < arr.size(); i++) {
+        const int a = arr[i];
+        currentMax = max(currentMax + a, a);
+        globalMaxSubArray = max(globalMaxSubArray, currentMax);
+
+        currentMaxSequence = max(currentMaxSequence, max(currentMaxSequence + arr[i], arr[i]));
+        gloablMaxSequence = max(gloablMaxSequence, currentMaxSequence);
+    }
+
+    return vector<int> {globalMaxSubArray, gloablMaxSequence};
 }
 
 int main()

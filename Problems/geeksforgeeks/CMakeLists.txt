@@ -117,3 +117,4 @@ ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/depth-first-traversal-for-a-graph "
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/flood-fill-algorithm "${CMAKE_CURRENT_BINARY_DIR}/flood-fill-algorithm")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/detect-cycle-in-a-directed-graph "${CMAKE_CURRENT_BINARY_DIR}/detect-cycle-in-a-directed-graph")
 ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/detect-cycle-in-an-undirected-graph "${CMAKE_CURRENT_BINARY_DIR}/detect-cycle-in-an-undirected-graph")
+ADD_SUBDIRECTORY(${CMAKE_CURRENT_SOURCE_DIR}/bipartite-graph "${CMAKE_CURRENT_BINARY_DIR}/bipartite-graph")

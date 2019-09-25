@@ -1,16 +1,43 @@
 #include <iostream>
+#include <fstream>
+#include <utils.h>
 
 using namespace std;
 
+vector<int>::iterator myQSortPartition(vector<int>::iterator begin, vector<int>::iterator end) {
+
+}
+
+void myQSort(vector<int>::iterator begin, vector<int>::iterator end) {
+    while (end - begin > 1) {
+        //split array on 2 parts
+        vector<int>::iterator pivot = myQSortPartition(begin, end);
+        myQSort(pivot, end);
+        end = pivot;
+    }
+}
+
 int main()
 {
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "rt", stdin);
-//   freopen("output.txt", "wt", stdout);
+#ifdef LOCAL_TEST
+    fstream f("input.txt");
+    cin.set_rdbuf(f.rdbuf());
 #endif
-    long long a, b;
-    
-    cin >> a >> b;
+    int t;
+    cin >> t;
 
-    cout << a + b;
+    for (int testCase = 0; testCase < t; testCase++) {
+        int n;
+        cin >> n;
+
+        vector<int> arr(n);
+        readVector(cin, arr, n);
+
+        myQSort(arr.begin(), arr.end());
+
+        printVector(cout, arr);
+
+        cout << endl;
+    }
+    return 0;
 }

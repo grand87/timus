@@ -29,7 +29,7 @@ void dijkstra(vector<vector<int>> graph, int src, int V) {
                 const int distance = graph[currentV][i];
                 //there is a direct connection between 2 verticies
                 if (distances[i] > distances[currentV] + distance) {
-                    distances[i] = min(distances[i], distances[currentV] + distance);
+                    distances[i] = distances[currentV] + distance;
                     verts.push(i);
                 }
             }

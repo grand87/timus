@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
-set(PROJECT_NAME x-total-shapes)
+get_filename_component(FOLDER_NAME ${PROJECT_SOURCE_DIR} NAME)
+set(PROJECT_NAME ${FOLDER_NAME})
 
 project (${PROJECT_NAME})
 

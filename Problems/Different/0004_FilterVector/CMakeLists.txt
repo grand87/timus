@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.6)
 
-set(PROJECT_NAME 0003_FilterVector)
+set(PROJECT_NAME 0004_FilterVector)
 
 project (${PROJECT_NAME})
 

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <unordered_map>
 
 using namespace std;
@@ -7,8 +8,9 @@ long long arr[10000001] = {0};
 
 int main()
 {
-#ifndef ONLINE_JUDGE
-    freopen("input.txt", "rt", stdin);
+#ifdef LOCAL_TEST
+    fstream f("input.txt");
+    cin.set_rdbuf(f.rdbuf());
 #endif
 
     int t;

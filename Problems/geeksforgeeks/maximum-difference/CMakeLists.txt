@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-get_filename_component(PROJECT_NAME ${CMAKE_CURRENT_SOURCE_DIR} NAME)
+set(PROJECT_NAME maximum-difference)
 
 project (${PROJECT_NAME})
 
@@ -25,12 +25,12 @@ if(BUILD_ANDROID)
 endif(BUILD_ANDROID)
 
 include_directories(
-    "${CMAKE_CURRENT_SOURCE_DIR}/"
+    "${PROJECT_SOURCE_DIR}/"
     )
 
 FILE(GLOB SRCS
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.h
-    ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
+    ${PROJECT_SOURCE_DIR}/*.h
+    ${PROJECT_SOURCE_DIR}/*.cpp
 )
 
 add_executable(${PROJECT_NAME} ${SRCS})

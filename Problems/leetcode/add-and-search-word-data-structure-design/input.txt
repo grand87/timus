@@ -1,0 +1,18 @@
+1
+
+2 2
+a
+a
+
+.a
+a.
+
+3 4
+bad
+mad
+dad
+
+pad
+bad
+.ad
+b..

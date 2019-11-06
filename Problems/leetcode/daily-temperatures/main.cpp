@@ -20,7 +20,6 @@ public:
         result[T.size() - 1] = 0;
         tempsHist[T[T.size() - 1]] = T.size() - 1;
 
-        int minTemp = T[T.size() - 1];
         int maxTemp = T[T.size() - 1];
 
         for (int i = T.size() - 2; i >= 0; i--) {
@@ -40,7 +39,6 @@ public:
                 result[i] = 0;
             }
             tempsHist[localTemp] = i;
-            minTemp = min(minTemp, localTemp);
             maxTemp = max(maxTemp, localTemp);
         }
 

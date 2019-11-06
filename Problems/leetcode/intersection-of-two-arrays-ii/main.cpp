@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include <set>
 #include <string>
 #include <fstream>
@@ -14,8 +14,8 @@ using namespace std;
 class Solution {
 public:
     vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
-        map<int, int> uniqueFreq;
-        map<int, int> uniqueFreq2;
+        unordered_map<int, int> uniqueFreq;
+        unordered_map<int, int> uniqueFreq2;
 
         for (int v : nums1)
             uniqueFreq[v]++; // log(n) complexity

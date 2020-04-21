@@ -16,7 +16,7 @@ char isMatchHelper(const string& A, const string& B, int aPos, int bPos, vector<
     //if B symbol is not an mask
     switch (B[bPos]) {
     case '*':
-        // we could sqash all consecutive starts
+        // we could sqash all consecutive stars
         while (B[bPos + 1] == '*')
             bPos++;
 

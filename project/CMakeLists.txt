@@ -5,7 +5,7 @@ add_definitions(-DLOCAL_TEST)
 
 project (AlgoPractice)
 
-find_program(CLANG_FORMAT_EXE NAMES "clang-format" DOC "Path to clang-format executable" )
+#find_program(CLANG_FORMAT_EXE NAMES "clang-format" DOC "Path to clang-format executable" )
 if(NOT CLANG_FORMAT_EXE)
 	message(STATUS "clang-format not found.")
 else()

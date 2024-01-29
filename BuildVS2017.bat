@@ -1,7 +1,8 @@
+set curDir=%CD%
+set "curDir=%curDir:\=/%"
+echo "%curDir%"
+
 mkdir build
 cd build
-
-set curDir=%CD%
-
-cmake ../project -G "Visual Studio 15 2017" -DCMAKE_MODULE_PATH=%curDir%/../project/cmake
+cmake ../project -G "Visual Studio 15 2017" -DCMAKE_MODULE_PATH=%curDir%/project/cmake
 cd ..

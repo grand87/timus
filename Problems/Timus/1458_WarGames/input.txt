@@ -1,0 +1,14 @@
+2
+WB
+BB
+
+2
+WW
+BB
+
+
+4
+WBWB
+BWWW
+WWBW
+WBWB

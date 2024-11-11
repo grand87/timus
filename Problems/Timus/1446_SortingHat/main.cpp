@@ -4,46 +4,50 @@
 
 #pragma comment(linker, "/STACK:16777216")
 
+#include <array>
 #include <iostream>
 #include <string>
-
+#include <map>
+#include <vector>
 
 using namespace std;
 
 //#define ONLINE_JUDGE
 
+const array<string, 4> kFaculties = {"Slytherin",
+                             "Hufflepuff",
+                             "Gryffindor",
+                             "Ravenclaw"};
+
 int main()
 {
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "rt", stdin);
-    freopen("output.txt", "wt", stdout);
+//    freopen("output.txt", "wt", stdout);
 #endif
     
-    int wheelSize = 0;
-    int ticksCount = 0;
-    
-    cin >> wheelSize >> ticksCount;
+    int studentsCount;
+    cin >> studentsCount;
 
-    string wheelContent;
+    map<string, vector<string>> studentsFaculty;
 
-    for (int i = 0; i < wheelSize; i++) {
-        string digits;
-        cin >> digits;
+    string studentName;
+    string faculty;
 
-        wheelContent += digits;
+    for (int i = 0; i < studentsCount; i++) {      
+        cin.ignore();
+        getline(cin, studentName);
+        cin >> faculty;
+
+        studentsFaculty[faculty].push_back(studentName);
     }
 
-    // remove full rotations
-    ticksCount %= wheelSize;
-
-    int pos = ticksCount;
-    
-    for (int i = 0; i < 10; i++) {
-        if (pos >= wheelContent.size()) {
-            pos = 0;
+    for (auto& facultyName : kFaculties) {
+        cout << facultyName << ":" << endl;
+        for (auto& name : studentsFaculty[facultyName]) {
+            cout << name << endl;
         }
-        cout << wheelContent[pos];
-        pos++;
+        cout << endl;
     }
 
     return 0;

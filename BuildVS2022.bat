@@ -4,5 +4,5 @@ echo "%curDir%"
 
 mkdir build
 cd build
-cmake ../project -G "Visual Studio 17 2022" -DCMAKE_MODULE_PATH=%curDir%/project/cmake
+cmake ../project -G "Visual Studio 17 2022" -DCMAKE_MODULE_PATH=%curDir%/project/cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5
 cd ..

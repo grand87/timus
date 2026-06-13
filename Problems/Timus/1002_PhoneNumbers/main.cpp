@@ -1,13 +1,13 @@
+#include <assert.h>
 #include <algorithm>
 #include <iostream>
-#include <string>
-#include <vector>
 #include <map>
-#include <assert.h>
+#include <string>
 #include <string_view>
+#include <vector>
 
 using namespace std;
-//for performance implement via array
+// for performance implement via array
 static int getDigit(char a) {
     switch (a) {
         case 'i':
@@ -79,12 +79,31 @@ static const int CharToDigitMap[] = {
     0   // z
 };
 
+struct StringLengthCompare {
+    bool operator()(const std::string& a, const std::string& b) const {
+        return a.length() > b.length();  // Sort by string length
+    }
+};
+
+// using Dict = map<string, string, StringLengthCompare>;
 using Dict = map<string, string>;
-using Phrase = vector<int>; // index word from dict
+using Phrase = vector<int>;  // <index word from dict
+
+// could be speed up if use map[char, digit]
+// TODO: replace with string_view
+void encodeWord(const char* word, char disgits[51]) {
+    int i = 0;
+    while (word[i]) {
+        // store numbers as a chars in dict explicitly
+        disgits[i] = CharToDigitMap[word[i] - 'a'] + '0';
+        ++i;
+    }
+    disgits[i] = 0;
+}
 
 string encodeInNumbers(const string& word) {
     string result(word);
-    for (int i =0; i < word.size(); i++) {
+    for (int i = 0; i < word.size(); i++) {
         // store numbers as a chars in dict explicitly
         result[i] = CharToDigitMap[word[i] - 'a'] + '0';
     }
@@ -93,11 +112,11 @@ string encodeInNumbers(const string& word) {
 
 size_t find(const string_view& phone, const string& sequence) {
     // can this word/sequnce fit?
-    //const int wordLen = sequence.size();
-    //if (phone.size() < string::npos) {
+    // const int wordLen = sequence.size();
+    // if (phone.size() < string::npos) {
     //    return 0;
     //}
-  
+
     // per char comparison starting from startPos
     // this might be optimised based on prehash generation for every word & phone
     const size_t pos = phone.find(sequence);
@@ -159,8 +178,7 @@ bool bt(const string_view& phone, const Dict& dict, Phrase& phrase, vector<Phras
 }
 
 void addToDict(Dict& dict, string w) {
-    // dict[w] = encodeInNumbers(w);
-    dict[encodeInNumbers(w)] = w;
+    dict[w] = encodeInNumbers(w);
 }
 
 bool test1() {
@@ -179,7 +197,7 @@ bool test1() {
     return true;
 }
 
-vector<string> wordBreakBacktracking(char phoneNumber[101], const Dict& dict) {
+vector<string> backtracking(const string_view& phoneNumber, const Dict& dict) {
     /*
         backtracking?
 
@@ -244,14 +262,6 @@ vector<string> wordBreakBacktracking(char phoneNumber[101], const Dict& dict) {
     return resultWords;
 }
 
-void wordBreakTrie(const string& phone, const Dict& dict) {
-    // use trie for quick word search
-
-    // build trie from dict
-
-    // loop over all prefixes and store shortes number of words in dp map
-}
-
 
 vector<string> wordBreakDP(const string& s, const Dict& dict) {
     const int n = s.size();
@@ -259,13 +269,15 @@ vector<string> wordBreakDP(const string& s, const Dict& dict) {
     // minimal number of splits up to this position
     vector<int> dp(n + 1, INT_MAX);
     vector<string_view> dps(n + 1);
+    Dict dictCopy;
+    for (auto& [word, digits] : dict) {
+        dictCopy.insert({digits, word});
+    }
     dp[n] = 0;
 
     // Traverse through the given string from right to left
     for (int i = n - 1; i >= 0; i--) {
-
         for (int j = i; j < n; j++) {
-        
             // check condition if substring can be segmented
             if (dp[j + 1] == INT_MAX) {
                 continue;
@@ -273,19 +285,21 @@ vector<string> wordBreakDP(const string& s, const Dict& dict) {
 
             // if so - checkif current substring is part of the dictionary
 
-            std::string_view tmp(s.c_str() + i, j - i  + 1);
-            auto word = dict.find(string(tmp));
-            
-            if (word != dict.end()) {
-                dps[i] = word->second;
+            std::string_view tmp(s.c_str() + i, j - i + 1);
+            auto word = dictCopy.find(string(tmp));
+
+            if (word != dictCopy.end()) {
+                if (dp[i] > 1 + dp[j + 1]) {
+                    dps[i] = word->second;
+                }
                 dp[i] = min(dp[i], 1 + dp[j + 1]);
-            }        
+            }
         }
     }
 
     vector<string> resultWords;
     if (dp[0] == INT_MAX) {
-        cout << "No solution.\n";  
+        cout << "No solution.\n";
     } else {
         int start = 0;
         while (start < n) {
@@ -294,7 +308,7 @@ vector<string> wordBreakDP(const string& s, const Dict& dict) {
             start += dps[start].size();
             if (start < n) {
                 cout << " ";
-            }      
+            }
         }
         cout << "\n";
     }
@@ -304,23 +318,22 @@ vector<string> wordBreakDP(const string& s, const Dict& dict) {
 int main() {
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "rt", stdin);
-//   freopen("output.txt", "wt", stdout);
+    //   freopen("output.txt", "wt", stdout);
 
     // unit tests local only
-    //assert(test1() == true);
+    // assert(test1() == true);
 #endif
 
     while (true) {
         char phoneNumber[101];
-        Dict dict; // <word, number representation> 
+        Dict dict;  // <word, number representation>
 
         cin >> phoneNumber;
         if (strlen(phoneNumber) == 0) {
             break;
         }
-        if (phoneNumber[0] == '-') {
+        if (phoneNumber[0] == '-')
             break;
-        }
 
         int dictSize = 0;
         cin >> dictSize;
@@ -331,13 +344,12 @@ int main() {
             addToDict(dict, w);
         }
 
-        vector<string> result1 = wordBreakBacktracking(phoneNumber, dict);
+        //vector<string> r1 = backtracking(phoneNumber, dict);
+        //vector<string> r2 = wordBreakDP(phoneNumber, dict);
+        wordBreakDP(phoneNumber, dict);
 
-        vector<string> result2 = wordBreakDP(phoneNumber, dict);
+        //assert(r1 == r2);
 
-        #ifndef ONLINE_JUDGE
-        assert(result1 == result2);
-        #endif
-        
     }
+    return 0;
 }

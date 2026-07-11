@@ -5,14 +5,14 @@
 #pragma comment(linker, "/STACK:16777216")
 
 #include <stdio.h>
+#include <iostream>
 #include <string>
 #include <string_view>
-#include <iostream>
 #include <vector>
 
 using namespace std;
 
-//#define ONLINE_JUDGE
+// #define ONLINE_JUDGE
 
 int asciiToIndex(char c) {
     switch (c) {
@@ -27,45 +27,43 @@ int asciiToIndex(char c) {
         case '8':
         case '9':
             return c - '0';
-        case 'a':
-        case 'b':
-        case 'c':
-        case 'd':
-        case 'e':
-        case 'f':
-        case 'g':
-        case 'h':
-        case 'i':
-        case 'j':
-        case 'k':
-        case 'l':
-        case 'm':
-        case 'n':
-        case 'o':
-        case 'p':
-        case 'q':
-        case 'r':
-        case 's':
-        case 't':
-        case 'u':
-        case 'v':
-        case 'w':
-        case 'x':
-        case 'y':
-        case 'z':
-            return c - 'a' + 10; 
+        default:
+            return c - 'a' + 10;
     }
 }
 
+char indexToAscii(int index) {
+    if (index < 10) {
+        return '0' + index;
+    }
+    return index - 10 + 'a';
+}
+
 struct TrieNode {
-    static const int kMaxNodes = 10 + 26;
+    static const int kMaxNodes = 10 + 26;  // 26
     TrieNode* children[kMaxNodes] = {};
     bool wordEndsHere = false;
-
 };
 
 TrieNode* allocateNode() {
-    static const int kMaxNodePoolSize = 10001;
+    //static vector<vector<TrieNode>> pagedNodePool(20);
+    //static const int kMaxNodePerPoolSize = 20000;
+    //static int allocationIndex = 0;
+    //static int allocationPool = 0;
+    //
+    //if (allocationIndex == 0) {
+    //    pagedNodePool[allocationPool].resize(kMaxNodePerPoolSize);
+    //}
+
+    //TrieNode* result = &pagedNodePool[allocationPool][allocationIndex];
+
+    //allocationIndex++;
+    //if (allocationIndex % kMaxNodePerPoolSize == 0) {
+    //    allocationPool++;
+    //    allocationIndex = 0;
+    //}
+
+    static const int kMaxNodePoolSize = 200001;
     static TrieNode nodesPool[kMaxNodePoolSize];
     static int allocationIndex = 0;
     return &nodesPool[allocationIndex++];
@@ -87,57 +85,62 @@ struct Trie {
     }
 
     TrieNode* findStartsWith(TrieNode* node, const string_view& word) const {
-    
+        int posInWord = 0;
+        TrieNode* current = node;
+        while (current && posInWord < word.size()) {
+            int index = asciiToIndex(word[posInWord]);
+            current = current->children[index];
+            posInWord++;
+        }
+        if (posInWord == word.size()) {
+            return current;
+        }
+        return nullptr;
     }
 
-    void loopOverAllChildren(TrieNode* node, string result, int pos) {
-        // TODO: finish traversing
+    void loopOverAllChildren(TrieNode* node, string result, int pos, int maxToPrint, int& printedCounter) {
+        if (printedCounter == maxToPrint) {
+            return;
+        }
 
         if (node == nullptr) {
             return;
         }
 
-        const int childIndex = asciiToIndex(word[pos]);
-        if (node->children[childIndex] == nullptr) {
-            return;
+        if (node->wordEndsHere) {
+            if (printedCounter < maxToPrint) {
+                string_view w(result.c_str(), pos);
+                cout << "  " << w << endl;
+                printedCounter++;
+            } else {
+                return;
+            }
         }
 
-        result[pos] = word[pos];    
-    }
-
-    void traverse(const TrieNode* node, const string_view& word) {
-        // find end node from the prefix defined by word
-        TrieNode* startsWithWord = findStartsWith(&root, word);
-        if (startsWithWord == nullptr) {
-            return;
-        }
-        
-        // prepend the prefix
-        string result(word);
-        loopOverAllChildren(startsWithWord, result, result.size());           
-    }
-
-    void print(const string_view& word) {
-
-        const int childIndex = asciiToIndex(word[0]);
-
-        
-        
-        TrieNode* currentNode = &root;
-        for (char c : word) {
-            
-        
+        for (int i = 0; i < TrieNode::kMaxNodes; i++) {
+            if (node->children[i]) {
+                loopOverAllChildren(node->children[i], result + indexToAscii(i), pos + 1, maxToPrint, printedCounter);
+            }
         }
     }
 
+    void printAllStartingWith(const string_view& word) {
+        TrieNode* prefixNode = findStartsWith(&root, word);
+        if (prefixNode) {
+            string result(word);
+            int printedCounter = 0;
+            loopOverAllChildren(prefixNode, result, result.size(), 20, printedCounter);
+        }
+    }
 };
 
 class DB {
     Trie trie;
 
 public:
-    void query(const string_view& q) const {
+    void query(const string_view& q) {
         cout << q << endl;
+        trie.printAllStartingWith(q);
     }
 
     void insert(const string_view& q) {
@@ -147,24 +150,24 @@ public:
 
 DB db;
 
-int main()
-{
+int main() {
 #ifndef ONLINE_JUDGE
     freopen("input.txt", "rt", stdin);
-    //freopen("output.txt", "wt", stdout);
+    // freopen("output.txt", "wt", stdout);
 #endif
     const int kMaxQueryLen = 32;
     char queryBuffer[kMaxQueryLen] = "";
+    db.insert("sun");
+
     while (scanf("%s", queryBuffer) != EOF) {
-    
         const string_view query(queryBuffer + 1);
         switch (queryBuffer[0]) {
-        case '?':
-            db.query(query);
-            break;
-        case '+':
-            db.insert(query);
-            break;
+            case '?':
+                db.query(query);
+                break;
+            case '+':
+                db.insert(query);
+                break;
         }
     }
 

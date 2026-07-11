@@ -5,6 +5,10 @@ add_definitions(-DLOCAL_TEST)
 
 project (AlgoPractice)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 #find_program(CLANG_FORMAT_EXE NAMES "clang-format" DOC "Path to clang-format executable" )
 if(NOT CLANG_FORMAT_EXE)
 	message(STATUS "clang-format not found.")

@@ -1,29 +1,51 @@
 #include <iostream>
-#include <vector>
+#include <list>
+#include <algorithm>
 
-int main()
-{
+using namespace std;
+
+int main() {
 #ifndef ONLINE_JUDGE
-	freopen("input.txt", "rt", stdin);
-	freopen("output.txt", "wt", stdout);
+    freopen("input.txt", "rt", stdin);
+    // freopen("output.txt", "wt", stdout);
 #endif
 
-	unsigned int t1, t2;
-	std::cin >> t1 >> t2;
+    int n, k;
+    std::cin >> n >> k;
 
-	unsigned int t1AddTime = 0;
+    list<int> p;
+    for (int i = 1; i <= n; i++) {
+        p.push_front(i);
+    }
 
-	for (char i = 0; i < 10; ++i)
-	{
-		unsigned int tryCount = 0;
-		std::cin >> tryCount;
-		t1AddTime += tryCount * 20;
-	}
+    // remove first round
 
-	if (t1 + t1AddTime <= t2 || (t1 == t2 && t1AddTime == 0))
-		std::cout << "No chance.";
-	else
-		std::cout << "Dirty debug :(";
+    int pos = k;
+    list<int>::reverse_iterator toRemove = p.rbegin();
+    advance(toRemove, pos - 1);
 
-	return 0;
+    for (int i = 1; i < n; i++) {
+        
+        
+        
+        
+        
+        
+        int pos = k % p.size() - 1;
+
+        list<int>::iterator removed;
+
+        if (pos == 0) {
+            removed = p.erase(p.begin());
+        } else {
+            removed = p.erase(next(p.begin(), pos - 1));
+        }
+
+        cout << *removed;
+        if (i + i < n) {
+            cout << " ";
+        }
+    }
+
+    return 0;
 }
